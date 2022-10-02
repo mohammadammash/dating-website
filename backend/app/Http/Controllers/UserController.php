@@ -37,7 +37,7 @@ class UserController extends Controller
     function getUser($id = '', $shown_id = '')
     {
         if($shown_id) $id = $shown_id;
-        
+
         // if there is an id provided (GetUser) - profile page
         $currentUser = User::where('id', $id)->get();
         if (!count($currentUser) > 0) {
@@ -51,5 +51,10 @@ class UserController extends Controller
             'status' => 'Success',
             'data' => $currentUser,
         ]);
+    }
+
+    //function to handle follow or block for a user:
+    function blockOrFollowUser($id, $shown_id, Request $request){
+        return [$id,$shown_id,$request->state];
     }
 }
