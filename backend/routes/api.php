@@ -10,9 +10,9 @@ Route::post('/login', [AuthController::class, 'loginUser'])->name('login-user');
 Route::post('/register', [AuthController::class, 'registerUser'])->name('register-user');
 
 // HOME PAGE ROUTES:
-Route::post( "/home", [UserController::class, "getUsers"])->name("get-users");
-Route::post("/home/profile", [UserController::class, "getUser"])->name("get-user");
-Route::post('/home/id/state', [UserController::class, 'blockOrFollowUser'])->name('block-or-follow-user');
+Route::get("/home/{id?}", [UserController::class, "getUsers"])->name("get-users");
+Route::get("/home/{id?}/profile", [UserController::class, "getUser"])->name("get-user");
+Route::get('/home/{id?}/show/{shown_id?}', [UserController::class, 'getUser'])->name('get-specific-user');
 
 // MESSAGES ROUTES:
 Route::get('/home/id/chat', [MessagesController::class, 'getMessages'])->name('get-messages');
