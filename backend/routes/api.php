@@ -10,7 +10,7 @@ Route::post('/login', [AuthController::class, 'loginUser'])->name('login-user');
 Route::post('/register', [AuthController::class, 'registerUser'])->name('register-user');
 
 // HOME PAGE ROUTES:
-Route::get("/home/{id?}", [UserController::class, "getUserOrUsers"])->name("get-user-or-users");
+Route::post("/home", [UserController::class, "getUsers"])->name("get-users");
 Route::post('/home/id/state', [UserController::class, 'blockOrFollowUser'])->name('block-or-follow-user');
 
 // MESSAGES ROUTES:
