@@ -3,14 +3,15 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 
 // LANDING PAGE ROUTES:
 Route::post('/login', [AuthController::class, 'loginUser'])->name('login-user');
 Route::post('/register', [AuthController::class, 'registerUser'])->name('register-user');
 
 // HOME PAGE ROUTES:
-Route::get('/home/{id?}', [UserController::class, 'getUserOrUsers'])->name('get-user-or-users');
-Route::get('/home/id/{state?}', [UserController::class, 'blockOrFollowUser'])->name('block-or-follow-user');
+Route::get("/home/{id?}", [UserController::class, "getUserOrUsers"])->name("get-user-or-users");
+Route::post('/home/id/state', [UserController::class, 'blockOrFollowUser'])->name('block-or-follow-user');
 
 // MESSAGES ROUTES:
 Route::get('/home/id/chat', [MessagesController::class, 'getMessages'])->name('get-messages');
