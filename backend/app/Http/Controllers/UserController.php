@@ -11,7 +11,7 @@ class UserController extends Controller
     function getUsers(Request $request)
     {
         $id = $request->id;
-        // if there is an id provided (GetUser) - profile page
+        // if there is an id provided (Get the user interested gender)
         $currentUser_interest = User::where('id', $id)->get(['interested_in']);
         if (!count($currentUser_interest)>0) {
             return response()->json([
@@ -31,6 +31,24 @@ class UserController extends Controller
         return response()->json([
             'status' => 'Error',
             'data' => 'Users Not Found',
+        ]);
+    }
+
+    //get user profile data to show in his profile page
+    function getUser(Request $request){
+        $id = $request->id;
+        // if there is an id provided (GetUser) - profile page
+        $currentUser = User::where('id', $id)->get();
+        if(!count($currentUser) > 0){
+            return response()->json([
+                'status' => 'Error',
+                'data' => 'User Not Found',
+            ]);
+        }
+
+        return response()->json([
+            'status'=>'Success',
+            'data'=>$currentUser,
         ]);
     }
 }
