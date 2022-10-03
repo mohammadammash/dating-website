@@ -40,7 +40,7 @@ class UserController extends Controller
     }
 
     //get user profile data to show in his profile page
-    function getCurrentUser(Request $request, $shown_id = '')
+    function getCurrentUser(Request $request)
     {
         $user = JWTAuth::authenticate($request->token);
         $messages = [];
