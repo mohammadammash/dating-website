@@ -14,6 +14,7 @@ class UserController extends Controller
     function getUsers(Request $request)
     {
         //get user if valid from JWTAuth
+        $user = JWTAuth::authenticate($request->token);
 
         // if there is an id provided (Get the user interested gender)
         $currentUser_interest = User::where('id', $user->id)->get(['interested_in']);
