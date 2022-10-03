@@ -41,6 +41,6 @@ class User extends Authenticatable
 
     // public function Favorited()
     // {
-    //     return $this->belongsToMany('favorited_users')->withPivot('user_id', 'category_id');
+    //     return $this->withPivot(['user_id', 'category_id']);
     // }
 }

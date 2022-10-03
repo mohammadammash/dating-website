@@ -59,19 +59,29 @@ class UserController extends Controller
     {
         $state = $request->state;
         if ($state === 'favorite') {
+            // adding user to favorited users:
             $data = array(
                 'user_id' => $id, 'favorited_id' => $shown_id,
                 'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
                 'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
             );
-            
             DB::table('favorited_users')->insert($data);
-            $favorited_users = DB::table('favorited_users')->where('user_id', $id)->get();
-            return $favorited_users;
         } else if ($state === 'unfavorite') {
             return 'UNFOLLOW:(';
         } else if ($state === 'block') {
-            return 'BLOCKME:(';
+            // adding user to blocked users:
+            $data = array(
+                'user_id' => $id, 'blocked_id' => $shown_id,
+                'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
+                'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
+            );
+            DB::table('blocked_users')->insert($data);
+            DB::table('blocked_users')->where('user_id', $id)->get();
+
+            return response()->json([
+                'status' => 'Success',
+                'data' => 'User Blocked',
+            ]);
         } else if ($state === 'unblock') {
             return 'UNBLOCKME :(';
         } else {
