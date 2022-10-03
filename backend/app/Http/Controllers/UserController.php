@@ -40,42 +40,20 @@ class UserController extends Controller
     }
 
     //get user profile data to show in his profile page
-    function getUser(Request $request, $shown_id = '')
+    function getCurrentUser(Request $request, $shown_id = '')
     {
         $user = JWTAuth::authenticate($request->token);
         $messages = [];
 
         $id = $user->id;
-        // if we are getting specific user show data, save current id and retrieve shown id data
-        if ($shown_id) {
-            $user_id = $id; //store id to check if blocked or favorited user
-            $id = $shown_id;
-        } else $messages = DB::table('messages')->where('sender_id', $id)->orWhere('receiver_id', $id)->get(); //get messages of currentUser
+        $messages = DB::table('messages')->where('sender_id', $id)->orWhere('receiver_id', $id)->get(); //get messages of currentUser
 
-        // if there is an id provided (GetUser) - profile page
+        // if there is an id provided (GetCurrentUser) - profile page
         $currentUser = User::where('id', $id)->get();
         if (!count($currentUser) > 0) {
             return response()->json([
                 'status' => 'Error',
                 'data' => 'User Not Found',
-            ]);
-        }
-
-        //get specific user not currentUser: //check if he is blocked first or favorited: to show buttons in a way according to the user state
-        if ($shown_id) {
-            $is_blocked = $this->checkIfBlocked($user_id, $shown_id);
-            $is_favorited =  $this->checkIfFavorited($user_id, $shown_id);
-            // temp:
-            $temp = $user_id;
-            $user_id = $shown_id;
-            $shown_id= $temp;
-            $blocked_by = $this->checkIfBlocked($user_id, $shown_id);
-            return response()->json([
-                'status' => 'Success',
-                'data' => $currentUser,
-                'is_favorited' => $is_favorited,
-                'is_blocked' => $is_blocked,
-                'blocked_by'=> $blocked_by,
             ]);
         }
 
@@ -85,6 +63,44 @@ class UserController extends Controller
             'data' => $currentUser,
             'messages' => $messages,
         ]);
+    }
+
+    //get specific User:
+    function getUser(Request $request, $shown_id)
+    {
+        //validating if function called without shown_user_id
+        if (!$shown_id) return response()->json([
+            'status' => 'Error',
+            'data' => 'User Not Found',
+        ]);
+
+        $user = JWTAuth::authenticate($request->token);
+
+        // if there the profile i want to get of a user is available/found
+        $currentUser = User::where('id', $shown_id)->get();
+        if (!count($currentUser) > 0) {
+            return response()->json([
+                'status' => 'Error',
+                'data' => 'User Not Found',
+            ]);
+        }
+
+        $is_blocked = $this->checkIfBlocked($user->id, $shown_id);
+        $is_favorited =  $this->checkIfFavorited($user->id, $shown_id);
+        // temp reverse ids in vars to check if the other user blocked us from viewing his/her page
+        $temp = $user->id;
+        $user_id = $shown_id;
+        $shown_id = $temp;
+        $blocked_by = $this->checkIfBlocked($user_id, $shown_id);
+
+        return response()->json([
+            'status' => 'Success',
+            'data' => $currentUser,
+            'is_favorited' => $is_favorited,
+            'is_blocked' => $is_blocked,
+            'blocked_by' => $blocked_by,
+        ]);
+
     }
 
     //function to handle follow or block for a user:
