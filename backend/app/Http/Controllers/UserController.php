@@ -63,8 +63,11 @@ class UserController extends Controller
     }
 
     //function to handle follow or block for a user:
-    function blockOrFollowUser($id, $shown_id, Request $request)
+    function blockOrFollowUser($shown_id, Request $request)
     {
+        $user = JWTAuth::authenticate($request->token);
+        $id = $user->id;
+        
         $state = $request->state;
         if ($state === 'favorite') {
             // adding user to favorited users:
