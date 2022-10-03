@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\MessageController;
 
 // LANDING PAGE ROUTES:
 Route::post('/login', [AuthController::class, 'loginUser'])->name('login-user');
@@ -18,8 +19,8 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::post('/home/{shown_id?}', [UserController::class, 'blockOrFollowUser'])->name('block-or-follow-user');
 
     // MESSAGES ROUTES:
-    Route::get('/home/id/chat', [MessagesController::class, 'getMessages'])->name('get-messages');
-    Route::post('/home/id/chat', [MessagesController::class, 'sendMessage'])->name('send-message');
+    Route::get('/home/{shown_id?}/chat', [MessagesController::class, 'getMessages'])->name('get-messages');
+    Route::post('/home/{shown_id?}/chat', [MessagesController::class, 'sendMessage'])->name('send-message');
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
