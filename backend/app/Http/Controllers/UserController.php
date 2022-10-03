@@ -46,10 +46,11 @@ class UserController extends Controller
         $messages = [];
 
         $id = $user->id;
+        // if we are getting specific user show data, save current id and retrieve shown id data
         if ($shown_id) {
             $user_id = $id; //store id to check if blocked or favorited user
             $id = $shown_id;
-        } else $messages = DB::table('messages')->where('sender_id', $id)->orWhere('receiver_id', $id)->get();
+        } else $messages = DB::table('messages')->where('sender_id', $id)->orWhere('receiver_id', $id)->get(); //get messages of currentUser
 
         // if there is an id provided (GetUser) - profile page
         $currentUser = User::where('id', $id)->get();
@@ -60,13 +61,25 @@ class UserController extends Controller
             ]);
         }
 
-        //get specific user not currentUser: //check if he is blocked first or favorited:
+        //get specific user not currentUser: //check if he is blocked first or favorited: to show buttons in a way according to the user state
         if ($shown_id) {
             $is_blocked = $this->checkIfBlocked($user_id, $shown_id);
             $is_favorited =  $this->checkIfFavorited($user_id, $shown_id);
-            return [$is_blocked, $is_favorited];
+            // temp:
+            $temp = $user_id;
+            $user_id = $shown_id;
+            $shown_id= $temp;
+            $blocked_by = $this->checkIfBlocked($user_id, $shown_id);
+            return response()->json([
+                'status' => 'Success',
+                'data' => $currentUser,
+                'is_favorited' => $is_favorited,
+                'is_blocked' => $is_blocked,
+                'blocked_by'=> $blocked_by,
+            ]);
         }
 
+        // response for user own profile
         return response()->json([
             'status' => 'Success',
             'data' => $currentUser,
@@ -115,7 +128,6 @@ class UserController extends Controller
                 'status' => 'Error',
                 'data' => 'Favorite not found',
             ]);
-
         } else if ($state === 'block') {
             // adding user to blocked users:
             // check if user already blocked:
@@ -160,7 +172,6 @@ class UserController extends Controller
                 'data' => 'State Not Found',
             ]);
         }
-
     }
 
     // function to check if shown user is favorited
