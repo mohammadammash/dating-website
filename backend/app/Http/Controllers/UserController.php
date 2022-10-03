@@ -68,6 +68,7 @@ class UserController extends Controller
             DB::table('favorited_users')->insert($data);
         } else if ($state === 'unfavorite') {
             return 'UNFOLLOW:(';
+
         } else if ($state === 'block') {
             // adding user to blocked users:
             $data = array(
@@ -82,9 +83,25 @@ class UserController extends Controller
                 'status' => 'Success',
                 'data' => 'User Blocked',
             ]);
+
         } else if ($state === 'unblock') {
-            return 'UNBLOCKME :(';
+            // unblock user (remove the relation from blocked_users table)
+            $block_exist = DB::table('blocked_users')->where('user_id', $id)->where('blocked_id', $shown_id)->get();
+
+            if (count($block_exist)>0) {
+                DB::table('blocked_users')->where('user_id', $id)->where('blocked_id', $shown_id)->delete();
+                return response()->json([
+                    'status' => 'Success',
+                    'data' => 'Block Removed',
+                ]);
+            }
+
+            return response()->json([
+                'status' => 'Error',
+                'data' => 'Block not found',
+            ]);
         } else {
+            //undefine state given
             return response()->json([
                 'status' => 'Error',
                 'data' => 'State Not Found',
