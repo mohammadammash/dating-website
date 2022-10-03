@@ -179,5 +179,16 @@ class UserController extends Controller
     }
 
     //function to check if blocked user
+    function checkIfBlocked($id, $shown_id)
+    {
+        if (!$id or !$shown_id) return response()->json([
+            'status' => 'Error',
+            'data' => "Error Finding Users!!"
+        ]);
 
+        $is_blocked = DB::table('blocked_users')->where('user_id', $id)->where('blocked_id', $shown_id)->get();
+        if (count($is_blocked) > 0) $is_blocked = true;
+        else $is_blocked = false;
+        return $is_blocked;
+    }
 }
