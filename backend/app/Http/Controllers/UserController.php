@@ -66,8 +66,23 @@ class UserController extends Controller
                 'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
             );
             DB::table('favorited_users')->insert($data);
+        
         } else if ($state === 'unfavorite') {
-            return 'UNFOLLOW:(';
+            // unfavorite user (remove the relation from favorited_users table)
+            $favorite_exist = DB::table('favorited_users')->where('user_id', $id)->where('favorited_id', $shown_id)->get();
+
+            if (count($favorite_exist) > 0) {
+                DB::table('favorited_users')->where('user_id', $id)->where('favorited_id', $shown_id)->delete();
+                return response()->json([
+                    'status' => 'Success',
+                    'data' => 'Favorite Removed',
+                ]);
+            }
+
+            return response()->json([
+                'status' => 'Error',
+                'data' => 'Favorite not found',
+            ]);
 
         } else if ($state === 'block') {
             // adding user to blocked users:
@@ -83,12 +98,11 @@ class UserController extends Controller
                 'status' => 'Success',
                 'data' => 'User Blocked',
             ]);
-
         } else if ($state === 'unblock') {
             // unblock user (remove the relation from blocked_users table)
             $block_exist = DB::table('blocked_users')->where('user_id', $id)->where('blocked_id', $shown_id)->get();
 
-            if (count($block_exist)>0) {
+            if (count($block_exist) > 0) {
                 DB::table('blocked_users')->where('user_id', $id)->where('blocked_id', $shown_id)->delete();
                 return response()->json([
                     'status' => 'Success',
