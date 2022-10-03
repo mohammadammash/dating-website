@@ -12,10 +12,10 @@ Route::post('/register', [AuthController::class, 'registerUser'])->name('registe
 // HOME PAGE ROUTES:
 Route::group(['middleware' => 'jwt.auth'], function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout-user');
-    Route::get("/home/{id?}", [UserController::class, "getUsers"])->name("get-users");
-    Route::get("/home/{id?}/profile", [UserController::class, "getUser"])->name("get-user");
-    Route::get('/home/{id?}/show/{shown_id?}', [UserController::class, 'getUser'])->name('get-specific-user');
-    Route::post('/home/{id?}/show/{shown_id?}', [UserController::class, 'blockOrFollowUser'])->name('block-or-follow-user');
+    Route::get("/home", [UserController::class, "getUsers"])->name("get-users");
+    Route::get("/home/profile", [UserController::class, "getUser"])->name("get-user");
+    Route::get('/home/show/{shown_id?}', [UserController::class, 'getUser'])->name('get-specific-user');
+    Route::post('/home/show/{shown_id?}', [UserController::class, 'blockOrFollowUser'])->name('block-or-follow-user');
 
     // MESSAGES ROUTES:
     Route::get('/home/id/chat', [MessagesController::class, 'getMessages'])->name('get-messages');

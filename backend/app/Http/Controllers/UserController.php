@@ -2,17 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use Illuminate\Http\Request;
 
+
 class UserController extends Controller
 {
     // if receive id(number) = return currentUser data // if receive gender then return data of users with this gender to show at home
-    function getUsers($id)
+    function getUsers(Request $request)
     {
+        //get user if valid from JWTAuth
+
         // if there is an id provided (Get the user interested gender)
-        $currentUser_interest = User::where('id', $id)->get(['interested_in']);
+        $currentUser_interest = User::where('id', $user->id)->get(['interested_in']);
         if (!count($currentUser_interest) > 0) {
             return response()->json([
                 'status' => 'Error',
@@ -35,8 +39,12 @@ class UserController extends Controller
     }
 
     //get user profile data to show in his profile page
-    function getUser($id = '', $shown_id = '')
+    function getUser(Request $request, $shown_id = '')
     {
+        $user = JWTAuth::authenticate($request->token);
+
+        return response()->json(['user' => $user]);
+
         if ($shown_id) $id = $shown_id;
 
         // if there is an id provided (GetUser) - profile page
@@ -66,7 +74,6 @@ class UserController extends Controller
                 'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
             );
             DB::table('favorited_users')->insert($data);
-                
         } else if ($state === 'unfavorite') {
             // unfavorite user (remove the relation from favorited_users table)
             $favorite_exist = DB::table('favorited_users')->where('user_id', $id)->where('favorited_id', $shown_id)->get();
@@ -83,7 +90,6 @@ class UserController extends Controller
                 'status' => 'Error',
                 'data' => 'Favorite not found',
             ]);
-
         } else if ($state === 'block') {
             // adding user to blocked users:
             $data = array(
