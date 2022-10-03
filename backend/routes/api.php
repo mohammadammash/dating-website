@@ -17,7 +17,7 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 
     // show home (get interested gender users - show user own profile)
     Route::get("/home", [UserController::class, "getUsers"])->name("get-users");
-    Route::get("/home/profile", [UserController::class, "getUser"])->name("get-user"); //get also all messages received or sent to show in profile page
+    Route::get("/home/profile", [UserController::class, "getCurrentUser"])->name("get-user"); //get also all messages received or sent to show in profile page
 
     //specific user - show on click - block or favorite functionality
     Route::get('/home/{shown_id?}', [UserController::class, 'getUser'])->name('get-specific-user');
