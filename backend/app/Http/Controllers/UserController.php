@@ -66,7 +66,7 @@ class UserController extends Controller
                 'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
             );
             DB::table('favorited_users')->insert($data);
-        
+                
         } else if ($state === 'unfavorite') {
             // unfavorite user (remove the relation from favorited_users table)
             $favorite_exist = DB::table('favorited_users')->where('user_id', $id)->where('favorited_id', $shown_id)->get();
