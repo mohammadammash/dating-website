@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class MessageController extends Controller
 {
-    public function getMessages(Request $request)
+    public function sendMessage(Request $request)
     {
         $user = JWTAuth::authenticate($request->token);
 
