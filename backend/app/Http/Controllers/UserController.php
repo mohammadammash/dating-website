@@ -44,8 +44,7 @@ class UserController extends Controller
     {
         $user = JWTAuth::authenticate($request->token);
 
-        return response()->json(['user' => $user]);
-
+        $id = $user->id;
         if ($shown_id) $id = $shown_id;
 
         // if there is an id provided (GetUser) - profile page
