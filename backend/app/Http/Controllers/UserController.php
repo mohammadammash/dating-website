@@ -46,8 +46,10 @@ class UserController extends Controller
         $messages = [];
 
         $id = $user->id;
-        if ($shown_id) $id = $shown_id;
-        else $messages = DB::table('messages')->where('sender_id', $id)->orWhere('receiver_id', $id)->get();
+        if ($shown_id) {
+            $user_id = $id; //store id to check if blocked or favorited user
+            $id = $shown_id;
+        } else $messages = DB::table('messages')->where('sender_id', $id)->orWhere('receiver_id', $id)->get();
 
         // if there is an id provided (GetUser) - profile page
         $currentUser = User::where('id', $id)->get();
@@ -58,10 +60,17 @@ class UserController extends Controller
             ]);
         }
 
+        //get specific user not currentUser: //check if he is blocked first or favorited:
+        if ($shown_id) {
+            $is_blocked = $this->checkIfBlocked($user_id, $shown_id);
+            $is_favorited =  $this->checkIfFavorited($user_id, $shown_id);
+            return [$is_blocked, $is_favorited];
+        }
+
         return response()->json([
             'status' => 'Success',
             'data' => $currentUser,
-            'messages'=>$messages,
+            'messages' => $messages,
         ]);
     }
 
@@ -70,16 +79,27 @@ class UserController extends Controller
     {
         $user = JWTAuth::authenticate($request->token);
         $id = $user->id;
-        
         $state = $request->state;
+
         if ($state === 'favorite') {
             // adding user to favorited users:
+            // check if favorited first, then if not favorited check if blocked
+            if ($this->checkIfFavorited($id, $shown_id) or $this->checkIfBlocked($id, $shown_id)) {
+                return response()->json([
+                    'status' => 'Error',
+                    'data' => 'Action Denied',
+                ]);
+            }
             $data = array(
                 'user_id' => $id, 'favorited_id' => $shown_id,
                 'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
                 'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
             );
             DB::table('favorited_users')->insert($data);
+            return response()->json([
+                'status' => 'Success',
+                'data' => 'Favorited Successfully!',
+            ]);
         } else if ($state === 'unfavorite') {
             // unfavorite user (remove the relation from favorited_users table)
             $favorite_exist = DB::table('favorited_users')->where('user_id', $id)->where('favorited_id', $shown_id)->get();
@@ -91,13 +111,20 @@ class UserController extends Controller
                     'data' => 'Favorite Removed',
                 ]);
             }
-
             return response()->json([
                 'status' => 'Error',
                 'data' => 'Favorite not found',
             ]);
+
         } else if ($state === 'block') {
             // adding user to blocked users:
+            // check if user already blocked:
+            if ($this->checkIfBlocked($id, $shown_id)) {
+                return response()->json([
+                    'status' => 'Error',
+                    'data' => 'Already Blocked!',
+                ]);
+            }
             $data = array(
                 'user_id' => $id, 'blocked_id' => $shown_id,
                 'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
@@ -133,5 +160,24 @@ class UserController extends Controller
                 'data' => 'State Not Found',
             ]);
         }
+
     }
+
+    // function to check if shown user is favorited
+    function checkIfFavorited($id, $shown_id)
+    {
+        if (!$id or !$shown_id) return response()->json([
+            'status' => 'Error',
+            'data' => "Error Finding Users!!"
+        ]);
+
+        $is_favorited = DB::table('favorited_users')->where('user_id', $id)->where('favorited_id', $shown_id)->get();
+        if (count($is_favorited) > 0) $is_favorited = true;
+        else $is_favorited = false;
+
+        return $is_favorited;
+    }
+
+    //function to check if blocked user
+
 }
