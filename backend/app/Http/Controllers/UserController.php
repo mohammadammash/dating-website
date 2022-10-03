@@ -43,9 +43,11 @@ class UserController extends Controller
     function getUser(Request $request, $shown_id = '')
     {
         $user = JWTAuth::authenticate($request->token);
+        $messages = [];
 
         $id = $user->id;
         if ($shown_id) $id = $shown_id;
+        else $messages = DB::table('messages')->where('sender_id', $id)->orWhere('receiver_id', $id)->get();
 
         // if there is an id provided (GetUser) - profile page
         $currentUser = User::where('id', $id)->get();
@@ -59,6 +61,7 @@ class UserController extends Controller
         return response()->json([
             'status' => 'Success',
             'data' => $currentUser,
+            'messages'=>$messages,
         ]);
     }
 
