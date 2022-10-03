@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -36,7 +37,7 @@ class UserController extends Controller
     //get user profile data to show in his profile page
     function getUser($id = '', $shown_id = '')
     {
-        if($shown_id) $id = $shown_id;
+        if ($shown_id) $id = $shown_id;
 
         // if there is an id provided (GetUser) - profile page
         $currentUser = User::where('id', $id)->get();
@@ -54,7 +55,30 @@ class UserController extends Controller
     }
 
     //function to handle follow or block for a user:
-    function blockOrFollowUser($id, $shown_id, Request $request){
-        return [$id,$shown_id,$request->state];
+    function blockOrFollowUser($id, $shown_id, Request $request)
+    {
+        $state = $request->state;
+        if ($state === 'favorite') {
+            $data = array(
+                'user_id' => $id, 'favorited_id' => $shown_id,
+                'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
+                'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
+            );
+            
+            DB::table('favorited_users')->insert($data);
+            $favorited_users = DB::table('favorited_users')->where('user_id', $id)->get();
+            return $favorited_users;
+        } else if ($state === 'unfavorite') {
+            return 'UNFOLLOW:(';
+        } else if ($state === 'block') {
+            return 'BLOCKME:(';
+        } else if ($state === 'unblock') {
+            return 'UNBLOCKME :(';
+        } else {
+            return response()->json([
+                'status' => 'Error',
+                'data' => 'State Not Found',
+            ]);
+        }
     }
 }

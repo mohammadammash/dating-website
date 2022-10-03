@@ -38,4 +38,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
     ];
+
+    // public function Favorited()
+    // {
+    //     return $this->belongsToMany('favorited_users')->withPivot('user_id', 'category_id');
+    // }
 }
