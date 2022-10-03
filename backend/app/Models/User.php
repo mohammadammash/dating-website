@@ -48,8 +48,4 @@ class User extends Authenticatable implements JWTSubject
         'password',
     ];
 
-    // public function Favorited()
-    // {
-    //     return $this->withPivot(['user_id', 'category_id']);
-    // }
 }
