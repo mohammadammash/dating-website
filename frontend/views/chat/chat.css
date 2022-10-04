@@ -1,12 +1,24 @@
 /* START OF CHAT MAIN CONTAINER */
-.chat-container{
-    margin:40px;
+.chat-container {
+  margin: 40px;
 }
-.all-chats{
-    display: grid;
-    grid-template-columns: repeat(5,1fr);
+.all-chats {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 2em;
+
 }
 /* START OF SINGLE CHAT */
+.all-chats .single-chat {
+  border: 2px solid #cd4631;
+  border-radius: 10px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+.all-chats .single-chat img {
+  width: 30%;
+  border-radius: 50%;
+}
 
 /* END OF SINGLE CHAT */
 /* END OF CHAT MAIN CONTAINER */
