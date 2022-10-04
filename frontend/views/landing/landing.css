@@ -33,6 +33,7 @@ input {
 .brownsugar-bg {
   background-color: #9e6240;
 } */
+
 /* REGISTER MODALS */
 .register-modal {
   background-color: white;
@@ -45,23 +46,41 @@ input {
   border: 1px solid black;
   margin-bottom: 5px;
 }
-/* SIGNUP MODAL */
-.register-modal .signup-modal .top {
+/* START OF SIGNUP AND LOGIN MODAL */
+.register-modal .modal .top {
   display: flex;
   justify-content: space-around;
   align-items: center;
 }
-.signup-modal .top span{
+.modal .top span{
     text-align: end;
     cursor: pointer;
 }
-.signup-modal .top h1{
+.modal .top h1{
     width:80%;
     text-align: center;
 }
-.register-modal .signup-modal .signup-form {
+.register-modal .modal .form {
   text-align: center;
 }
 .register-modal .img-section label {
   cursor: pointer;
 }
+.register-modal .login-modal{
+    height: 350px;
+}
+.register-modal .login-modal form{
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2em;
+}
+.register-modal .login-modal .form > div{
+    width:100%;
+}
+.register-modal .login-modal .form input{
+    width:60%;
+}
+/*END OF SIGNUP AND LOGIN MODAL */
