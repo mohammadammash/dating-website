@@ -16,3 +16,5 @@ const signup_interested_gender = document.getElementById('signup-interested-gend
 const signup_age = document.getElementById('signup-age');
 const signup_img_url = document.getElementById('signup-img-url');
 //login form inputs:
+const login_email = document.getElementById('login-email'); 
+const login_password = document.getElementById("login-password");
