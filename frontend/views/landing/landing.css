@@ -1,7 +1,19 @@
 /* MAIN PAGE STYLING */
-main{
+body{
     background-image: url('../../assets/landing-bg.jpg');
-    height:100vh;
     background-size:cover;
-    text-align: center;
+    background-position: center;
 }
+label{
+    display: block;
+    margin: 10px 0;
+}
+main{
+    margin-top: 2em;
+    height:100vh;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap:2em;
+}
+/* Top Section */
