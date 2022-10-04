@@ -1,11 +1,11 @@
 const logout_button = document.getElementById("logout");
 //home container to add users to:
-const home_container = document.getElementById('home-container');
+const home_container = document.getElementById("home-container");
 
 // check if there is no user return to landing
 const checkCurrentUser = () => {
-  const user = localStorage.getItem('user');
-  if(!user) window.location.href = '../landing/landing.html';
+  const user = localStorage.getItem("user");
+  if (!user) window.location.href = "../landing/landing.html";
 };
 // logout current user:
 const logoutUser = () => {
@@ -14,17 +14,28 @@ const logoutUser = () => {
 };
 
 // FETCH ALL USERS:
-const getAllUsers = ()=>{
-    console.log("let's get users");
-}
+const getAllUsers = async () => {
+  const api_url = `${main_object.baseURL}/home`;
+  const token = localStorage.getItem("token");
+  if (token) jwt_token = JSON.parse(token);
+
+  const response = await main_object.getAPI(api_url, jwt_token);
+//   const data = response.data.data;
+  if (response.data.status === "Success") {
+    addUsersToHTML(response.data.data);
+  } else {
+    console.log("No data dude");
+  }
+};
 
 // START OF EVENT LISTENERS
 logout_button.addEventListener("click", logoutUser);
 window.addEventListener("load", checkCurrentUser);
-window.addEventListener('load',getAllUsers);
+window.addEventListener("load", getAllUsers);
 // END OF EVENT LISTENERS
 
-{/* <div class="card eggshell-bg">
+{
+  /* <div class="card eggshell-bg">
     <img class="profile-img" src="../../assets/dummy-profile.png">
     <div>
         <p>Name: <span class="name">Hadi</span></p>
@@ -40,4 +51,5 @@ window.addEventListener('load',getAllUsers);
         <img src="../../assets/icons8-chat-room-50.png" class="chat">
         <img src="../../assets/icons8-block-50.png" class="block">
     </div>
-</div>  */}
+</div>  */
+}
