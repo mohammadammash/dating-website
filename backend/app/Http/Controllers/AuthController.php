@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Storage;
 
 class AuthController extends Controller
 {
@@ -29,12 +30,19 @@ class AuthController extends Controller
         ]);
         // encrypt password
         $hashedpassword = bcrypt($request->password);
+        //profile password should be base64 -> retrieve it back to image:
+        $image_64 = $validator['profile_url'];
+        $email = $validator['email'];
+        $targetPath = public_path() . '\user_images';
+        $image_url = $targetPath . "\\" . $email . ".jpeg";
+        $this->base64_to_jpeg($image_64, $image_url);
+        return $image_url;
 
         // create new user object
         $new_user = User::create([
             'name' => $validator['name'],
             'password' => $hashedpassword,
-            'profile_url' => $validator['profile_url'],
+            'profile_url' => $image_url,
             'gender' => $validator['gender'],
             'email' => $validator['email'],
             'interested_in' => $validator['interested_in'],
@@ -45,7 +53,6 @@ class AuthController extends Controller
         if ($this->token) {
             return $this->loginUser($request);
         }
-
     }
 
     function loginUser(Request $request)
@@ -97,14 +104,15 @@ class AuthController extends Controller
         }
     }
 
-    public function getUser(Request $request)
+    public function base64_to_jpeg($base64_string, $output_file)
     {
-        $this->validate($request, [
-            'token' => 'required'
-        ]);
-
-        $user = JWTAuth::authenticate($request->token);
-
-        return response()->json(['user' => $user]);
+        // open the output file for writing
+        $ifp = fopen($output_file, 'wb');
+        // split the string on commas
+        // $data[ 0 ] == "data:image/png;base64"
+        // $data[ 1 ] == <actual base64 string>
+        // we could add validation here with ensuring count( $data ) > 1
+        Storage::put($ifp, $base64_string);
+        base64_decode(Storage::get($ifp));
     }
 }
