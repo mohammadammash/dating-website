@@ -3,6 +3,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border-bottom: 2px solid #cd4631;
 }
 .nav img{
     height: 120px;
@@ -19,3 +20,41 @@
     width:100px;
 }
 /* END OF NAVBAR */
+
+/* START OF MAIN */
+.home-main{
+    margin: 0 20px;
+    text-align: center;
+}
+.home-container{
+    margin: 10px 20px;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap:2em;
+    text-align: center;
+}
+.home-main h1{
+    margin: 40px 0;
+}
+/* START OF CARD */
+.card{
+    border:3px solid red;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap:2em;
+    border: 2px solid #cd4631;
+    padding: 20px;
+    border-radius: 10px;
+}
+.card .profile-img{
+    width:30%;
+    height:40%;
+    border-radius: 50%;
+}
+.card .logos img{
+    cursor: pointer;
+}
+/* END OF CARD */
+
+/* END OF MAIN */
