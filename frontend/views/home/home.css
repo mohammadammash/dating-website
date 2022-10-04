@@ -1,3 +1,21 @@
-*{
-    background-color: pink;
+/* START OF NAVBAR */
+.nav{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
+.nav img{
+    height: 120px;
+}
+.nav ul a{
+    display: inline-block;
+    margin-right: 20px;
+}
+.nav ul a{
+    color: black;
+}
+.nav ul button{
+    margin-right: 20px;
+    width:100px;
+}
+/* END OF NAVBAR */
