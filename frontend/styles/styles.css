@@ -84,4 +84,7 @@ a {
 .display-block {
   display: block;
 }
+.disable-pointer{
+  cursor: none;
+}
 /* END OF UTILITIES */
