@@ -84,7 +84,30 @@ a {
 .display-block {
   display: block;
 }
-.disable-pointer{
+.disable-pointer {
   cursor: none;
 }
 /* END OF UTILITIES */
+
+/* START OF NAVBAR */
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #cd4631;
+}
+.nav img {
+  height: 120px;
+}
+.nav ul a {
+  display: inline-block;
+  margin-right: 20px;
+}
+.nav ul a {
+  color: black;
+}
+.nav ul button {
+  margin-right: 20px;
+  width: 100px;
+}
+/* END OF NAVBAR */
