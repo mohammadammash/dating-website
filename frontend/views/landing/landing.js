@@ -33,6 +33,13 @@ const checkCurrentUser = () => {
     window.location.href = "../home.html";
   }
 };
+//add user to local storage after login and signup:
+const addCurrentUser = (response) => {
+  const data = response.data.data[0];
+  const token = response.data.token;
+  localStorage.setItem("user", JSON.stringify(data));
+  localStorage.setItem("token", JSON.stringify(token));
+};
 // END OF LANDING PAGE GLOBAL FUNCTIONS
 
 // START OF EVENT LISTENERS FUNCTIONS
@@ -71,10 +78,7 @@ const submitLoginUser = async (e) => {
   const url = `${main_object.baseURL}/login`;
   const response = await main_object.postAPI(url, bodyFormData);
   if (response.data.status === "Success") {
-    const data = response.data.data[0];
-    const token = response.data.token;
-    localStorage.setItem("user", JSON.stringify(data));
-    localStorage.setItem("token", JSON.stringify(token));
+    addCurrentUser(response);
     checkCurrentUser();
   } else {
     console.log("No data dude");
@@ -98,10 +102,7 @@ const submitSignupUser = async (e) => {
   const url = `${main_object.baseURL}/register`;
   const response = await main_object.postAPI(url, bodyFormData);
   if (response.data.status === "Success") {
-    const data = response.data.data[0];
-    const token = response.data.token;
-    localStorage.setItem("user", JSON.stringify(data));
-    localStorage.setItem("token", JSON.stringify(token));
+    addCurrentUser(response);
     checkCurrentUser();
   } else {
     console.log("No data dude");
@@ -121,4 +122,6 @@ close_login_modal.addEventListener("click", closeModals);
 close_signup_modal.addEventListener("click", closeModals);
 // whenever we change the image signup url:
 signup_img_url.addEventListener("change", updateProfileShown);
+//window load events: whenever page loads if there is a user => redirect him/her to the home page
+window.addEventListener('load',checkCurrentUser);
 // END OF EVENT LISTENERS
