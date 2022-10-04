@@ -1,0 +1,7 @@
+/* MAIN PAGE STYLING */
+main{
+    background-image: url('../../assets/landing-bg.jpg');
+    height:100vh;
+    background-size:cover;
+    text-align: center;
+}
