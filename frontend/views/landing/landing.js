@@ -25,13 +25,15 @@ const login_password = document.getElementById("login-password");
 const login_submit_button = document.getElementById("login-submit-button");
 const signup_submit_button = document.getElementById("signup-submit-button");
 
+// START OF LANDING PAGE GLOBAL FUNCTIONS
 //check Current user after login and signup to redirect if found to the home page:
-const checkCurrentUser = ()=>{
-    const CurrentUser = localStorage.getItem('user');
-    if(CurrentUser){
-        window.location.href = '../home.html';
-    }
-}
+const checkCurrentUser = () => {
+  const CurrentUser = localStorage.getItem("user");
+  if (CurrentUser) {
+    window.location.href = "../home.html";
+  }
+};
+// END OF LANDING PAGE GLOBAL FUNCTIONS
 
 // START OF EVENT LISTENERS FUNCTIONS
 // show image and save url
@@ -63,9 +65,20 @@ const showSignupModal = () => {
 //submit login modal:
 const submitLoginUser = async (e) => {
   e.preventDefault();
-  // const [email, password] = [login_email.value, login_password.value];
-  // const data = main_object.postAPI(`${main_object.baseURL}/login`, {email, password});
-  // return data;
+  const bodyFormData = new FormData();
+  bodyFormData.append("email", login_email.value);
+  bodyFormData.append("password", login_password.value);
+  const url = `${main_object.baseURL}/login`;
+  const response = await main_object.postAPI(url, bodyFormData);
+  if (response.data.status === "Success") {
+    const data = response.data.data[0];
+    const token = response.data.token;
+    localStorage.setItem("user", JSON.stringify(data));
+    localStorage.setItem("token", JSON.stringify(token));
+    checkCurrentUser();
+  } else {
+    console.log("No data dude");
+  }
 };
 //submit signup modal:
 const submitSignupUser = async (e) => {
@@ -84,14 +97,14 @@ const submitSignupUser = async (e) => {
 
   const url = `${main_object.baseURL}/register`;
   const response = await main_object.postAPI(url, bodyFormData);
-  if(response.data.status === 'Success'){
+  if (response.data.status === "Success") {
     const data = response.data.data[0];
     const token = response.data.token;
-    localStorage.setItem('user',JSON.stringify(data));
+    localStorage.setItem("user", JSON.stringify(data));
     localStorage.setItem("token", JSON.stringify(token));
     checkCurrentUser();
-  }else{
-    console.log('No data dude');
+  } else {
+    console.log("No data dude");
   }
 };
 // END OF EVENT LISTENERS FUNCTIONS
