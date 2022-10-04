@@ -16,10 +16,24 @@ const signup_interested_gender = document.getElementById('signup-interested-gend
 const signup_age = document.getElementById('signup-age');
 const signup_img_url = document.getElementById('signup-img-url');
 const signup_img_show = document.getElementById("signup-img-show");
+var base64String; // to hold the image base64 and use in different methods conditionally
 //login form inputs:
 const login_email = document.getElementById('login-email'); 
 const login_password = document.getElementById("login-password");
 
+// START OF EVENT LISTENERS FUNCTIONS
+// show image and save url
+function updateProfileShown() {
+  if (this.files && this.files[0]) {
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      base64String = reader.result.replace("data:", "").replace(/^.+,/, "");
+      signup_img_show.src = e.target.result;
+    };
+    reader.readAsDataURL(this.files[0]);
+  }
+}
+// END OF EVENT LISTENERS FUNCTIONS
 
 // START OF EVENT LISTENERS
 //sign up and login submit form:
