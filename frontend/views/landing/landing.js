@@ -30,7 +30,7 @@ const signup_submit_button = document.getElementById("signup-submit-button");
 const checkCurrentUser = () => {
   const CurrentUser = localStorage.getItem("user");
   if (CurrentUser) {
-    window.location.href = "../home.html";
+    window.location.href = "../home/home.html";
   }
 };
 //add user to local storage after login and signup:
