@@ -7,6 +7,11 @@ const checkCurrentUser = () => {
   }
 };
 
+const logoutUser = () => {
+  localStorage.clear();
+  checkCurrentUser();
+};
+
 // START OF EVENT LISTENERS
 logout_button.addEventListener("click", logoutUser);
-window.addEventListener(load, checkCurrentUser);
+window.addEventListener('load', checkCurrentUser);
