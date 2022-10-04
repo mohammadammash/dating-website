@@ -24,19 +24,20 @@
           </button>
         </div>
         <div class="login-section">
-          <label class="size-20" for="signup-modal-btn"
+          <label class="size-20" for="login-modal-btn"
             >Continue Your Journey</label
           >
-          <button class="btn btn-lg upper" id="signup-modal-btn">Login</button>
+          <button class="btn btn-lg upper" id="login-modal-btn">Login</button>
         </div>
       </div>
     </main>
     <!-- END OF MAIN CONTENT IN SCREEN UPPER -->
 
+
     <!-- START OF REGISTER MODALS -->
-    <!-- START OF SIGNUP MODAL -->
     <section id="modal" class="center register-modal">
-      <div class="modal display-none">
+    <!-- START OF SIGNUP MODAL -->
+      <div id="signup-modal" class="modal display-none">
         <div class="top">
         <h1>Sign Up</h1>
         <span id="close-signup-modal">&#x2715</span>
@@ -88,13 +89,12 @@
             <input type="file" id="signup-img-url" accept="image/*" class="display-none" />
           </div>
           <!-- Submit -->
-          <button id="signup-submit" class="btn btn-md">Submit</button>
+          <button id="signup-submit-button" class="btn btn-md">Submit</button>
         </form>
       </div>
     <!-- END OF SIGNUP MODAL -->
-
     <!-- START OF LOGIN MODAL -->
-      <div class="modal login-modal ">
+      <div id="login-modal" class="modal login-modal display-none">
         <div class="top">
         <h1>Login</h1>
         <span id="close-login-modal">&#x2715</span>
@@ -116,7 +116,7 @@
           />
           </div>
           <!-- Submit -->
-          <button id="login-submit" class="btn btn-md">Submit</button>
+          <button id="login-submit-button" class="btn btn-md">Submit</button>
         </form>
       </div>
     <!-- END OF LOGIN MODAL -->
@@ -124,5 +124,6 @@
     <!-- END OF REGISTER MODALS -->
 
     <script src="../../scripts/index.js"></script>
+    <script src="landing.js"></script>
   </body>
 </html>
