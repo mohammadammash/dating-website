@@ -13,11 +13,16 @@
   border: 2px solid #cd4631;
   border-radius: 10px;
   padding: 10px 20px;
-  cursor: pointer;
 }
 .all-chats .single-chat img {
   width: 30%;
   border-radius: 50%;
+}
+.all-chats .single-chat button{
+  text-align: center;
+  width:60%;
+  border: 1px solid #cd4631;
+  cursor: pointer;
 }
 /* END OF SINGLE CHAT */
 /* END OF CHAT MAIN CONTAINER */
