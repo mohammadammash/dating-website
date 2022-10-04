@@ -56,9 +56,9 @@ a {
   min-width: 18%;
   font-size: 20px;
 }
-.btn-md{
-    min-width:13%;
-    font-size: 16px;
+.btn-md {
+  min-width: 13%;
+  font-size: 16px;
 }
 .bold {
   text-transform: bold;
@@ -71,5 +71,17 @@ a {
 }
 .size-16 {
   font-size: 16px;
+}
+.center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.display-none {
+  display: none;
+}
+.display-block {
+  display: block;
 }
 /* END OF UTILITIES */
