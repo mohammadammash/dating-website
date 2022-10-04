@@ -22,6 +22,7 @@ var base64String; // to hold the image base64 and use in different methods condi
 //login form inputs:
 const login_email = document.getElementById("login-email");
 const login_password = document.getElementById("login-password");
+//axios:
 
 // START OF EVENT LISTENERS FUNCTIONS
 // show image and save url
@@ -53,16 +54,24 @@ const showSignupModal = ()=> {
 //submit login modal:
 const submitLoginUser = (e)=>{
     e.preventDefault();
+    // const [email, password] = [login_email.value, login_password.value];
+    // const data = main_object.postAPI(`${main_object.baseURL}/login`, {email, password});
+    // return data;
+}
+//submit signup modal:
+const submitSignupUser = (e)=>{
+    e.preventDefault();
 }
 // END OF EVENT LISTENERS FUNCTIONS
+
 
 // START OF EVENT LISTENERS
 // login and signup show modal:
 login_show_button.addEventListener("click", showLoginModal);
 signup_show_button.addEventListener("click", showSignupModal);
 //sign up and login submit form:
-// submit_login.addEventListener("submit", submitLoginUser);
-// submit_signup.addEventListener("submit",submitSignupUser);
+submit_login.addEventListener("submit", submitLoginUser);
+submit_signup.addEventListener("submit",submitSignupUser);
 //sign up and login close form:
 close_login_modal.addEventListener("click", closeModals);
 close_signup_modal.addEventListener("click", closeModals);
