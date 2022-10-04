@@ -36,12 +36,12 @@
     <!-- START OF REGISTER MODALS -->
     <!-- START OF SIGNUP MODAL -->
     <section id="modal" class="center register-modal">
-      <div class="signup-modal">
+      <div class="modal display-none">
         <div class="top">
         <h1>Sign Up</h1>
         <span id="close-signup-modal">&#x2715</span>
         </div>
-        <form class="signup-form" id="signup-form">
+        <form class="form" id="signup-form">
           <!-- Name -->
           <label for="signup-name">Name:</label>
           <input id="signup-name" type="text" placeholder="name" required />
@@ -88,11 +88,39 @@
             <input type="file" id="signup-img-url" accept="image/*" class="display-none" />
           </div>
           <!-- Submit -->
-          <button class="btn btn-md">Submit</button>
+          <button id="signup-submit" class="btn btn-md">Submit</button>
         </form>
       </div>
-    </section>
     <!-- END OF SIGNUP MODAL -->
-    <!-- START OF REGISTER MODALS -->
+
+    <!-- START OF LOGIN MODAL -->
+      <div class="modal login-modal ">
+        <div class="top">
+        <h1>Login</h1>
+        <span id="close-login-modal">&#x2715</span>
+        </div>
+        <form class="form" id="signup-form">
+          <!-- Email -->
+          <div>
+          <label for="login-email">Email:</label>
+          <input id="login-email" type="text" placeholder="email" required />
+          </div>
+          <!-- Password -->
+          <div>
+          <label for="login-password">Password:</label>
+          <input
+            id="login-password"
+            type="password"
+            placeholder="password"
+            required
+          />
+          </div>
+          <!-- Submit -->
+          <button id="login-submit" class="btn btn-md">Submit</button>
+        </form>
+      </div>
+    <!-- END OF LOGIN MODAL -->
+    </section>
+    <!-- END OF REGISTER MODALS -->
   </body>
 </html>
