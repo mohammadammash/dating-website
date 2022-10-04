@@ -1,0 +1,23 @@
+/* START OF CSS RESET */
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+h1 {
+  font-size: 50px;
+}
+h2 {
+  font-size: 32px;
+}
+button {
+  border-radius: 7px;
+}
+li{
+    list-style: none;
+}
+a{
+    text-decoration: none;
+}
+/* END OF CSS RESET */
+
