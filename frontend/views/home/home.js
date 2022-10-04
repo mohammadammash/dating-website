@@ -12,6 +12,31 @@ const logoutUser = () => {
   localStorage.clear();
   checkCurrentUser();
 };
+// add Users To HTML:
+const addUsersToHTML = (users) => {
+  const appendToContainer = (user) => {
+    const userHTML = `<div class="card eggshell-bg">
+    <img class="profile-img" src="${user.profile_url}">
+    <div>
+        <p>Name: <span class="name">${user.name}</span></p>
+        <p>Age: <span class="age">${user.age}</span></p>
+    </div>
+    <div>
+        <p>Gender: <span class="gender">${user.gender}</span></p>
+        <p>Interested in: <span class="interested-in-gender">${user.interested_in}</span></p>
+    </div>
+    <p class="bio">${user.bio}</p>;
+    <div class="logos">
+    <img src="../../assets/icons8-favorite-50 (1).png" class="favorite">
+        <img src="../../assets/icons8-chat-room-50.png" class="chat">
+        <img src="../../assets/icons8-block-50.png" class="block">
+    </div>
+</div>`;
+    home_container.innerHTML += userHTML;
+  };
+
+  for (let user of users) appendToContainer(user);
+};
 
 // FETCH ALL USERS:
 const getAllUsers = async () => {
@@ -20,7 +45,7 @@ const getAllUsers = async () => {
   if (token) jwt_token = JSON.parse(token);
 
   const response = await main_object.getAPI(api_url, jwt_token);
-//   const data = response.data.data;
+  //   const data = response.data.data;
   if (response.data.status === "Success") {
     addUsersToHTML(response.data.data);
   } else {
@@ -34,22 +59,3 @@ window.addEventListener("load", checkCurrentUser);
 window.addEventListener("load", getAllUsers);
 // END OF EVENT LISTENERS
 
-{
-  /* <div class="card eggshell-bg">
-    <img class="profile-img" src="../../assets/dummy-profile.png">
-    <div>
-        <p>Name: <span class="name">Hadi</span></p>
-        <p>Age: <span class="age">23</span></p>
-    </div>
-    <div>
-        <p>Gender: <span class="gender">Male</span></p>
-        <p>Interested in: <span class="interested-in-gender">Female</span></p>
-    </div>
-    <p class="bio">Hi! My name is Mark, and I am brand new to online dating. While I’m still figuring this all out, here’s something I know for sure—I’m excited to be here!</p>
-    <div class="logos">
-        <img src="../../assets/icons8-favorite-50 (1).png" class="favorite">
-        <img src="../../assets/icons8-chat-room-50.png" class="chat">
-        <img src="../../assets/icons8-block-50.png" class="block">
-    </div>
-</div>  */
-}

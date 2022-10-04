@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    // if receive id(number) = return currentUser data // if receive gender then return data of users with this gender to show at home
+
     function getUsers(Request $request)
     {
         //get user if valid from JWTAuth
