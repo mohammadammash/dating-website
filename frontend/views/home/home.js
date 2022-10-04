@@ -12,10 +12,20 @@ const logoutUser = () => {
   localStorage.clear();
   checkCurrentUser();
 };
+// add card event listeners after appending the card:
+const addCardEventListeners = () => {
+  const favorite_icons = document.querySelectorAll(".favorite");
+  const chat_icons = document.querySelectorAll(".chat");
+  const block_icons = document.querySelectorAll(".block");
+
+  for (let fav of favorite_icons) fav.addEventListener("click", AddToFavorites);
+  for (let chat of chat_icons) chat.addEventListener("click", AddToChats);
+  for (let block of block_icons) block.addEventListener("click", AddToBlocked);
+};
 // add Users To HTML:
 const addUsersToHTML = (users) => {
   const appendToContainer = (user) => {
-    const userHTML = `<div class="card eggshell-bg">
+    const userHTML = `<div class="card eggshell-bg" data-value=${user.id}>
     <img class="profile-img" src="${user.profile_url}">
     <div>
         <p>Name: <span class="name">${user.name}</span></p>
@@ -36,6 +46,7 @@ const addUsersToHTML = (users) => {
   };
 
   for (let user of users) appendToContainer(user);
+  addCardEventListeners();
 };
 
 // FETCH ALL USERS:
@@ -58,4 +69,3 @@ logout_button.addEventListener("click", logoutUser);
 window.addEventListener("load", checkCurrentUser);
 window.addEventListener("load", getAllUsers);
 // END OF EVENT LISTENERS
-
