@@ -86,7 +86,9 @@ const submitSignupUser = async (e) => {
   const response = await main_object.postAPI(url, bodyFormData);
   if(response.data.status === 'Success'){
     const data = response.data.data[0];
+    const token = response.data.token;
     localStorage.setItem('user',JSON.stringify(data));
+    localStorage.setItem("token", JSON.stringify(token));
     checkCurrentUser();
   }else{
     console.log('No data dude');
