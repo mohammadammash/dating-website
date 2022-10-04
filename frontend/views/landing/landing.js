@@ -22,11 +22,13 @@ var base64String; // to hold the image base64 and use in different methods condi
 //login form inputs:
 const login_email = document.getElementById("login-email");
 const login_password = document.getElementById("login-password");
+const login_submit_button = document.getElementById("login-submit-button");
+const signup_submit_button = document.getElementById("signup-submit-button");
 //axios:
 
 // START OF EVENT LISTENERS FUNCTIONS
 // show image and save url
-function updateProfileShown(){
+function updateProfileShown() {
   if (this.files && this.files[0]) {
     var reader = new FileReader();
     reader.onload = function (e) {
@@ -37,41 +39,60 @@ function updateProfileShown(){
   }
 }
 //close login and signup modals on click (X):
-const closeModals=()=> {
+const closeModals = () => {
   login_modal.classList.add("display-none");
   signup_modal.classList.add("display-none");
-}
+};
 //show login modal:
-const showLoginModal =()=> {
+const showLoginModal = () => {
   closeModals();
   login_modal.classList.remove("display-none");
-}
+};
 //show signup modal:
-const showSignupModal = ()=> {
+const showSignupModal = () => {
   closeModals();
   signup_modal.classList.remove("display-none");
-}
+};
 //submit login modal:
-const submitLoginUser = (e)=>{
-    e.preventDefault();
-    // const [email, password] = [login_email.value, login_password.value];
-    // const data = main_object.postAPI(`${main_object.baseURL}/login`, {email, password});
-    // return data;
-}
+const submitLoginUser = async (e) => {
+  e.preventDefault();
+  // const [email, password] = [login_email.value, login_password.value];
+  // const data = main_object.postAPI(`${main_object.baseURL}/login`, {email, password});
+  // return data;
+};
 //submit signup modal:
-const submitSignupUser = (e)=>{
-    e.preventDefault();
-}
-// END OF EVENT LISTENERS FUNCTIONS
+const submitSignupUser = async (e) => {
+  e.preventDefault();
 
+  const bodyFormData = new FormData();
+  bodyFormData.append("name", signup_name.value);
+  bodyFormData.append("email", signup_email.value);
+  bodyFormData.append("password", signup_password.value);
+  bodyFormData.append("gender", signup_gender.value);
+  bodyFormData.append("interested_in", signup_interested_gender.value);
+  bodyFormData.append("profile_url", base64String);
+  bodyFormData.append("age", signup_age.value);
+  bodyFormData.append("bio", "my bio");
+  bodyFormData.append("location", "my loc");
+
+  const url = `${main_object.baseURL}/register`;
+  const response = await main_object.postAPI(url, bodyFormData);
+  if(response.data.status === 'Success'){
+    const data = response.data.data[0];
+    localStorage.setItem('user',JSON.stringify(data));
+  }else{
+    console.log('No data dude');
+  }
+};
+// END OF EVENT LISTENERS FUNCTIONS
 
 // START OF EVENT LISTENERS
 // login and signup show modal:
 login_show_button.addEventListener("click", showLoginModal);
 signup_show_button.addEventListener("click", showSignupModal);
 //sign up and login submit form:
-submit_login.addEventListener("submit", submitLoginUser);
-submit_signup.addEventListener("submit",submitSignupUser);
+login_submit_button.addEventListener("click", submitLoginUser);
+signup_submit_button.addEventListener("click", submitSignupUser);
 //sign up and login close form:
 close_login_modal.addEventListener("click", closeModals);
 close_signup_modal.addEventListener("click", closeModals);

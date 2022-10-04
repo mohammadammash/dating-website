@@ -36,7 +36,6 @@ class AuthController extends Controller
         $targetPath = public_path() . '\user_images';
         $image_url = $targetPath . "\\" . $email . ".jpeg";
         $this->base64_to_jpeg($image_64, $image_url);
-        return $image_url;
 
         // create new user object
         $new_user = User::create([

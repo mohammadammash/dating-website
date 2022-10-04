@@ -18,12 +18,13 @@ main_object.getAPI = async (api_url, jwt_token = "") => {
 
 main_object.postAPI = async (api_url, api_data, jwt_token = "") => {
   try {
-    return await axios.post(api_url, api_data, {
-      headers: {
-        Authorization: "Bearer " + jwt_token,
-        Accept: "application/json",
-      },
-    });
+    return await axios
+      .post(api_url, api_data, {
+        headers: {
+          Authorization: "Bearer " + jwt_token,
+          Accept: "application/json",
+        },
+      })
   } catch (error) {
     console.log("/POST API:", error);
   }
