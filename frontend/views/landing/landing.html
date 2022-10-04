@@ -18,13 +18,72 @@
       <div class="bottom-section">
         <div class="signup-section">
           <label class="size-20" for="signup-modal-btn">New User</label>
-          <button class="btn btn-lg upper" id="signup-modal-btn">Sign Up</button>
+          <button class="btn btn-lg upper" id="signup-modal-btn">
+            Sign Up
+          </button>
         </div>
         <div class="login-section">
-          <label class="size-20" for="signup-modal-btn">Continue Your Journey</label>
+          <label class="size-20" for="signup-modal-btn"
+            >Continue Your Journey</label
+          >
           <button class="btn btn-lg upper" id="signup-modal-btn">Login</button>
         </div>
       </div>
     </main>
+
+    <!-- START OF SIGNUP MODAL -->
+    <section id="signup-modal">
+      <h1>Sign Up</h1>
+      <form id="signup-form">
+        <!-- Name -->
+        <label for="signup-name">Name:</label>
+        <input id="signup-name" type="text" placeholder="name" required />
+        <!-- Email -->
+        <label for="signup-email">Email:</label>
+        <input id="signup-email" type="text" placeholder="email" required />
+        <!-- Password -->
+        <label for="signup-password">Password:</label>
+        <input
+          id="signup-password"
+          type="password"
+          placeholder="password"
+          required
+        />
+        <!-- Gender -->
+        <label for="regiser-gender">Your Gender:</label>
+        <select id="signup-gender" name="gender" required>
+          <option value="female">Female</option>
+          <option value="male">Male</option>
+          <option value="other">other</option>
+        </select>
+        <!-- Interested in gender: -->
+        <label for="regiser-gender">Interested in Gender:</label>
+        <select id="signup-gender" name="interested-in-gender" required>
+          <option value="female">Female</option>
+          <option value="male">Male</option>
+          <option value="other">Other</option>
+        </select>
+        <!-- Age -->
+        <label for="signup-age">Age:</label>
+        <input
+          id="signup-age"
+          type="Number"
+          min="18"
+          max="100"
+          placeholder="above 18"
+          required
+        />
+        <!-- Profile Image - Required -->
+        <div class="img-section">
+          <label for="signup-img-url"
+            ><img id="signup-img-show" src="../../assets/dummy-profile.png"
+          /></label>
+          <input type="file" id="signup-img-url" accept="image/*" />
+        </div>
+        <!-- Submit -->
+        <button class="btn btn-md">Submit</button>
+      </form>
+    </section>
+    <!-- END OF SIGNUP MODAL -->
   </body>
 </html>
