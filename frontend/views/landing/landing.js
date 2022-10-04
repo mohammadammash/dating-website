@@ -24,7 +24,14 @@ const login_email = document.getElementById("login-email");
 const login_password = document.getElementById("login-password");
 const login_submit_button = document.getElementById("login-submit-button");
 const signup_submit_button = document.getElementById("signup-submit-button");
-//axios:
+
+//check Current user after login and signup to redirect if found to the home page:
+const checkCurrentUser = ()=>{
+    const CurrentUser = localStorage.getItem('user');
+    if(CurrentUser){
+        window.location.href = '../home.html';
+    }
+}
 
 // START OF EVENT LISTENERS FUNCTIONS
 // show image and save url
@@ -80,6 +87,7 @@ const submitSignupUser = async (e) => {
   if(response.data.status === 'Success'){
     const data = response.data.data[0];
     localStorage.setItem('user',JSON.stringify(data));
+    checkCurrentUser();
   }else{
     console.log('No data dude');
   }
