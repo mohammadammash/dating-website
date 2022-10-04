@@ -1,21 +1,67 @@
 /* MAIN PAGE STYLING */
-body{
-    background-image: url('../../assets/landing-bg.jpg');
-    background-size:cover;
-    background-position: center;
+body {
+  background-image: url("../../assets/landing-bg.jpg");
+  background-size: cover;
+  background-position: center;
 }
-label{
-    display: block;
-    margin-top:20px;
-    margin-bottom: 8px;
+label {
+  display: block;
+  margin-top: 20px;
+  margin-bottom: 8px;
 }
-main{
-    margin-top: 2em;
-    height:100vh;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    gap:2em;
+main {
+  margin-top: 2em;
+  height: 100vh;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+}
+input {
+  width: 60%;
 }
 
-/* CONTENT */
+/* .vermilion-bg {
+  background-color: #cd4631;
+}
+.tumbleweed-bg {
+  background-color: #dea47e;
+}
+.eggshell-bg {
+  background-color: #f8f2dc;
+}
+.brownsugar-bg {
+  background-color: #9e6240;
+} */
+/* REGISTER MODALS */
+.register-modal {
+  background-color: white;
+  border-radius: 10px;
+  min-width: 25%;
+}
+.register-modal button {
+  width: 50%;
+  background-color: white;
+  border: 1px solid black;
+  margin-bottom: 5px;
+}
+/* SIGNUP MODAL */
+.register-modal .signup-modal .top {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.signup-modal .top span{
+    text-align: end;
+    cursor: pointer;
+}
+.signup-modal .top h1{
+    width:80%;
+    text-align: center;
+}
+.register-modal .signup-modal .signup-form {
+  text-align: center;
+}
+.register-modal .img-section label {
+  cursor: pointer;
+}
