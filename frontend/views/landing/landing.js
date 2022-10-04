@@ -25,7 +25,7 @@ const login_password = document.getElementById("login-password");
 
 // START OF EVENT LISTENERS FUNCTIONS
 // show image and save url
-function updateProfileShown() {
+function updateProfileShown(){
   if (this.files && this.files[0]) {
     var reader = new FileReader();
     reader.onload = function (e) {
@@ -36,18 +36,23 @@ function updateProfileShown() {
   }
 }
 //close login and signup modals on click (X):
-function closeModals() {
+const closeModals=()=> {
   login_modal.classList.add("display-none");
   signup_modal.classList.add("display-none");
 }
 //show login modal:
-function showLoginModal() {
+const showLoginModal =()=> {
   closeModals();
   login_modal.classList.remove("display-none");
 }
-function showSignupModal() {
+//show signup modal:
+const showSignupModal = ()=> {
   closeModals();
   signup_modal.classList.remove("display-none");
+}
+//submit login modal:
+const submitLoginUser = (e)=>{
+    e.preventDefault();
 }
 // END OF EVENT LISTENERS FUNCTIONS
 
@@ -56,8 +61,8 @@ function showSignupModal() {
 login_show_button.addEventListener("click", showLoginModal);
 signup_show_button.addEventListener("click", showSignupModal);
 //sign up and login submit form:
-// submit_login.addEventListener("submit", loginUser);
-// submit_signup.addEventListener("submit", signupUser);
+// submit_login.addEventListener("submit", submitLoginUser);
+// submit_signup.addEventListener("submit",submitSignupUser);
 //sign up and login close form:
 close_login_modal.addEventListener("click", closeModals);
 close_signup_modal.addEventListener("click", closeModals);

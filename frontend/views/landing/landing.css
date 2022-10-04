@@ -69,6 +69,11 @@ input {
 .register-modal .login-modal{
     height: 350px;
 }
+.register-modal .signup-img-show{
+  border-radius: 50%;
+  border: 1px solid black;
+  width: 100px;
+}
 .register-modal .login-modal form{
     height: 80%;
     display: flex;
