@@ -1,0 +1,12 @@
+/* START OF CHAT MAIN CONTAINER */
+.chat-container{
+    margin:40px;
+}
+.all-chats{
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+}
+/* START OF SINGLE CHAT */
+
+/* END OF SINGLE CHAT */
+/* END OF CHAT MAIN CONTAINER */
