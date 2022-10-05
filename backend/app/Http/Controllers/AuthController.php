@@ -15,7 +15,6 @@ class AuthController extends Controller
 
     function registerUser(Request $request)
     {
-
         // validate request data (if not valid laravel will return by itself)
         $validator = $request->validate([
             'name' => 'required|string',
@@ -106,12 +105,13 @@ class AuthController extends Controller
     public function base64_to_jpeg($base64_string, $output_file)
     {
         // open the output file for writing
-        $ifp = fopen($output_file, 'wb');
+        // $ifp = fopen($output_file, 'wb');
         // split the string on commas
         // $data[ 0 ] == "data:image/png;base64"
         // $data[ 1 ] == <actual base64 string>
         // we could add validation here with ensuring count( $data ) > 1
-        Storage::put($ifp, $base64_string);
-        base64_decode(Storage::get($ifp));
+        $image = base64_decode($base64_string);
+        $success = file_put_contents($output_file, $image);
+        echo $success;
     }
 }
