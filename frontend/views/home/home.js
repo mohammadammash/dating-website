@@ -7,6 +7,8 @@ const home_container = document.getElementById("home-container");
 const checkCurrentUser = () => {
   const user = localStorage.getItem("user");
   if (!user) window.location.href = "../landing/landing.html";
+  //remove chat_with user_id so it doesn't affect functionality of chat button clicked
+  localStorage.removeItem('chat_with');
 };
 // logout current user:
 const logoutUser = () => {
