@@ -15,6 +15,9 @@ const logoutUser = () => {
   checkCurrentUser();
 };
 // add unique user to left chat box with the message:
+const addChat = (message) => {
+  console.log(message);
+};
 
 //const remove repeated users: //by looping from end of results(latest messages first and getting only last message)
 const showEachUserOnce = (messages) => {

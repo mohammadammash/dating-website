@@ -40,28 +40,21 @@ class UserController extends Controller
     }
 
     //get user profile data to show in his profile page
-    function getCurrentUser(Request $request)
+    function getCurrentUserMessages(Request $request)
     {
         $user = JWTAuth::authenticate($request->token);
         $messages = [];
 
         $id = $user->id;
-        $currentUser = User::where('id', $id)->get();
-        $messages = DB::table('messages')->where('sender_id', $id)->orWhere('receiver_id', $id)->get(); //get messages of currentUser
+        $messages_sent = DB::table('users')->join('messages', 'users.id', '=', 'messages.sender_id')->where('users.id', $id)->get(); //get messages of currentUser
+        $messages_received = DB::table('users')->join('messages', 'users.id', '=', 'messages.receiver_id')->where('users.id', $id)->get(); //get messages of currentUser
 
-        // if there is an id provided (GetCurrentUser) - profile page
-        if (!count($currentUser) > 0) {
-            return response()->json([
-                'status' => 'Error',
-                'data' => 'User Not Found',
-            ]);
-        }
 
         // response for user own profile
         return response()->json([
             'status' => 'Success',
-            'data' => $currentUser,
-            'messages' => $messages,
+            'messages_sent' => $messages_sent,
+            'messages_received' => $messages_received,
         ]);
     }
 

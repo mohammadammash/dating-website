@@ -21,6 +21,9 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+    public function getMessages(){
+        return $this->belongsToMany('messages');
+    }
     /**
      * The attributes that are mass assignable.
      *
