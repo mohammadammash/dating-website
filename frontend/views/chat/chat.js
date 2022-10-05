@@ -1,6 +1,12 @@
 const logout_button = document.getElementById("logout");
 const all_chats_container = document.getElementById("all-chats");
-const show_single_chat_container = document.getElementById("show-chat");
+const show_single_chat_content = document.getElementById("show-content");
+const show_single_chat_img = document.getElementById("show-img");
+const show_single_chat_name = document.getElementById("show-name");
+const show_single_chat_container = document.getElementById("single-chat");
+const no_chat_displayed_title = document.getElementById(
+  "no-single-chat-display"
+);
 
 // ------START OF GENERAL PAGE FUNCTIONS------
 //check if there is a user in localstorage, if not return to landing
@@ -17,19 +23,34 @@ const logoutUser = () => {
 };
 // ------END OF GENERAL PAGE FUNCTIONS------
 
-
 // ------START OF LEFT SECTION CHATS------
-//show single chat:
-const showSingleChat = async (e)=>{
-  const chat_card = e.target.parentNode;
-  const shown_id = chat_card.getAttribute('data-value');
-  const api_url = `${main_object.baseURL}/home/chats/${shown_id}`;
-  const jwt_token = JSON.parse(localStorage.getItem('token'));
-  const response = await main_object.getAPI(api_url, jwt_token);
-  if(response.data.status === 'Success'){
-    // appendChatHTML(response.data.messages);
+//append single chat message to HTML:
+const appendChatHTML = (messages, name, img_url, shown_id) => {
+  no_chat_displayed_title.classList.add("display-none");
+  show_single_chat_img.src = img_url;
+  show_single_chat_name.textContent = name;
+  show_single_chat_content.innerHTML = '';
+  for (let message of messages) {
+    if (message.receiver_id === parseInt(shown_id)) {
+      show_single_chat_content.innerHTML += `<div class="received-message"><p class="text">${message.text}<span class='date'>${message.created_at}</span></p></div>`;
+    } else {
+      show_single_chat_content.innerHTML += `<div class="sent-message"><p class="text">${message.text}<span class='date'>${message.created_at}</span></p></div>`;
+    }
   }
-  else{
+  show_single_chat_container.classList.remove("display-none");
+};
+//show single chat:
+const showSingleChat = async (e) => {
+  const chat_card = e.target.parentNode;
+  const img_url = chat_card.children[0].src;
+  const name = chat_card.children[1].children[0].children[0].textContent;
+  const shown_id = chat_card.getAttribute("data-value");
+  const api_url = `${main_object.baseURL}/home/chats/${shown_id}`;
+  const jwt_token = JSON.parse(localStorage.getItem("token"));
+  const response = await main_object.getAPI(api_url, jwt_token);
+  if (response.data.status === "Success") {
+    appendChatHTML(response.data.messages, name, img_url, shown_id);
+  } else {
     logoutUser();
   }
 };
@@ -80,12 +101,10 @@ const getAllMessages = async () => {
   showEachUserOnce(response.data.messages_sent, unique_ids);
   showEachUserOnce(response.data.messages_received, unique_ids);
   //after getting all unique chats and showing them at left section, add show Event listeners:
-  const showButtons = document.querySelectorAll('.show-chat-button');
-  for(let btn of showButtons) btn.addEventListener('click',showSingleChat);
+  const showButtons = document.querySelectorAll(".show-chat-button");
+  for (let btn of showButtons) btn.addEventListener("click", showSingleChat);
 };
 // ------END OF LEFT SECTION CHATS------
-
-
 
 // START OF EVENT LISTENERS
 logout_button.addEventListener("click", logoutUser);

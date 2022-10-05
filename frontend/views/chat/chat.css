@@ -73,7 +73,7 @@
   overflow-y: scroll;
 }
 .content p {
-  width: 30%;
+  max-width:45%;
   margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
