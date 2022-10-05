@@ -22,8 +22,8 @@
   width: 30%;
   border-radius: 50%;
 }
-.all-chats .single-chat .gender{
-  font-size:12px;
+.all-chats .single-chat .gender {
+  font-size: 12px;
   text-align: end;
 }
 .all-chats .single-chat button {
@@ -37,52 +37,87 @@
 /* START OF SHOW SINGLE CHAT */
 .chat-container .show-chat {
   width: 60%;
-  height:500px;
+  height: 500px;
   padding-top: 40px;
   display: flex;
   justify-content: center;
 }
-.single-chat-container{
+.single-chat-container {
   border: 2px solid #cd4631;
-  width:60%;
+  width: 60%;
   box-sizing: border-box;
   border-radius: 10px;
 }
-.single-chat-container .header img{
+/* START OF CHAT HEADER */
+.single-chat-container .header img {
   padding-right: 10px;
   display: inline-block;
-  width:100px;
+  width: 100px;
   border-radius: 50%;
 }
-.single-chat-container .header{
+.single-chat-container .header {
   display: flex;
   justify-content: flex-start;
   align-items: center;
   padding: 10px 10px;
-  width:100%;
+  width: 100%;
   border-bottom: 2px solid #cd4631;
-  height:22%;
+  height: 22%;
 }
-.single-chat-container .content{
-  border-bottom: 2px solid #cd4631;
+/* END OF CHAT HEADER */
+
+/* START OF CHAT CONTENT */
+.single-chat-container .content {
   height: 65%;
+  margin: 5px 10px;
+  overflow-y: scroll;
 }
-.single-chat-container .footer img{
-  width:30px;
- height:30px;
- cursor: pointer;
+.content p {
+  width: 30%;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 1.5rem;
+  background-color: #fff;
+  border: 2px solid #e5e5ea;
+  border-radius: 0.25rem;
 }
-.single-chat-container .footer{
-  height:13%;
+.content p span{
+  opacity:0.6;
+  font-size: 12px;
+}
+.single-chat-container .received-message p{
+  border-bottom-left-radius: 20px;
+}
+.single-chat-container .sent-message{
+  display: flex;
+  justify-content: end;
+}
+.single-chat-container .sent-message p{
+  border-bottom-right-radius: 20px;
+}
+/* END OF CHAT CONTENT */
+
+/* START OF CHAT FOOTER */
+.single-chat-container .footer img {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+.single-chat-container .footer {
+  border-top: 2px solid #cd4631;
+  height: 13%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 10px;
 }
-.single-chat-container .footer input{
-  width:80%;
-  height:50%;
+.single-chat-container .footer input {
+  width: 80%;
+  height: 50%;
   border-radius: 5px;
 }
+/* END OF CHAT FOOTER */
+
 /* END OF SHOW SINGLE CHAT */
 /* END OF CHAT MAIN CONTAINER */
