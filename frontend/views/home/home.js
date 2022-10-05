@@ -2,7 +2,7 @@ const logout_button = document.getElementById("logout");
 //home container to add users to:
 const home_container = document.getElementById("home-container");
 
-// START OF WINDOW USER FUNCTIONS
+// ------START OF WINDOW USER FUNCTIONS------
 // check if there is no user return to landing
 const checkCurrentUser = () => {
   const user = localStorage.getItem("user");
@@ -13,9 +13,10 @@ const logoutUser = () => {
   localStorage.clear();
   checkCurrentUser();
 };
-// END OF WINDOW USER FUNCTIONS
+// ------END OF WINDOW USER FUNCTIONS------
 
-// START OF ICONS EVENT LISTENERS FUNCTIONS
+
+// ------START OF ICONS EVENT LISTENERS FUNCTIONS------
 function AddToFavorites() {
   const card = this.parentNode.parentNode;
   const favorited_id = card.getAttribute("data-value");
@@ -31,9 +32,10 @@ function chatWith() {
   const receiver_id = card.getAttribute("data-value");
   console.log(receiver_id);
 }
-// END OF ICONS EVENT LISTENERS FUNCTIONS
+// ------END OF ICONS EVENT LISTENERS FUNCTIONS-----
 
-// START OF GETTING ALLUSERS, APPENDING USERS, ADDING USER EVENT LISTENERS
+
+// ------START OF ALL USERS AND CARDS------
 // add card event listeners after appending the card:
 const addCardEventListeners = () => {
   const favorite_icons = document.querySelectorAll(".favorite");
@@ -77,17 +79,17 @@ const getAllUsers = async () => {
   if (token) jwt_token = JSON.parse(token);
 
   const response = await main_object.getAPI(api_url, jwt_token);
-  //   const data = response.data.data;
   if (response.data.status === "Success") {
     addUsersToHTML(response.data.data);
   } else {
     console.log("No data dude");
   }
 };
-// END OF GETTING ALLUSERS, APPENDING USERS, ADDING USER EVENT LISTENERS
+// ------END OF ALL USERS AND CARDS------
 
-// START OF EVENT LISTENERS
+
+// -----START OF EVENT LISTENERS-----
 logout_button.addEventListener("click", logoutUser);
 window.addEventListener("load", checkCurrentUser);
 window.addEventListener("load", getAllUsers);
-// END OF EVENT LISTENERS
+// ------END OF EVENT LISTENERS-----

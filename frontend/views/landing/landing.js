@@ -91,7 +91,7 @@ const submitLoginUser = async (e) => {
   }
 };
 //submit signup modal:
-const registerNewUser = async (location)=>{
+async function registerNewUser(location){
   const bodyFormData = new FormData();
   bodyFormData.append("name", signup_name.value);
   bodyFormData.append("email", signup_email.value);

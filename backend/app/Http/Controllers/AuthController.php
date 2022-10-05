@@ -111,7 +111,6 @@ class AuthController extends Controller
         // $data[ 1 ] == <actual base64 string>
         // we could add validation here with ensuring count( $data ) > 1
         $image = base64_decode($base64_string);
-        $success = file_put_contents($output_file, $image);
-        echo $success;
+        file_put_contents($output_file, $image);
     }
 }
