@@ -80,28 +80,7 @@ class AuthController extends Controller
             'data' => 'User Not Found',
         ]);
     }
-
-    public function logout(Request $request)
-    {
-        $this->validate($request, [
-            'token' => 'required'
-        ]);
-
-        try {
-            JWTAuth::invalidate($request->token);
-
-            return response()->json([
-                'success' => true,
-                'message' => 'User logged out successfully'
-            ]);
-        } catch (JWTException $exception) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Sorry, the user cannot be logged out'
-            ], Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
-    }
-
+    
     public function base64_to_jpeg($base64_string, $output_file)
     {
         // open the output file for writing
