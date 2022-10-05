@@ -2,6 +2,7 @@ const logout_button = document.getElementById("logout");
 const all_chats_container = document.getElementById("all-chats");
 const show_single_chat_container = document.getElementById("show-chat");
 
+// ------START OF GENERAL PAGE FUNCTIONS------
 //check if there is a user in localstorage, if not return to landing
 const checkCurrentUser = () => {
   const user = localStorage.getItem("user");
@@ -14,18 +15,29 @@ const logoutUser = () => {
   localStorage.clear();
   checkCurrentUser();
 };
+// ------END OF GENERAL PAGE FUNCTIONS------
+
+
+// ------START OF LEFT SECTION CHATS------
+//show single chat:
+const showSingleChat = (e)=>{
+  const chat_card = e.target.parentNode;
+  const id = JSON.parse(localStorage.getItem('user')).id;
+  const shown_id = chat_card.getAttribute('data-value');
+  console.log(id, shown_id); 
+}
 // add unique user to left chat box with the message: //show only 5 first charcs of last message
 const addChat = (message, id) => {
   const { sender_id, receiver_id, name, profile_url, text, gender } = message;
   if (sender_id !== id) id = sender_id;
   else if (receiver_id !== id) id = receiver_id;
-  const htmlChat = `<div class="single-chat eggshell-bg" data-value='${id}>
+  const htmlChat = `<div class="single-chat eggshell-bg" data-value='${id}'>
                         <img src="${profile_url}">
                         <div class="user-info">
                           <p class="size-20"><span class='name'>${name}</span><span class='gender'>~${gender}</span></p>
                           <p class="last-msg">${text.slice(0, 5)}...</p>
                         </div>
-                        <button class="btn btn-md">Show</button>
+                        <button class="btn btn-md show-chat-button">Show</button>
                       </div>`;
   all_chats_container.innerHTML += htmlChat;
   all_chats_container.innerHTML += `<br>`;
@@ -60,10 +72,13 @@ const getAllMessages = async () => {
   const unique_ids = new Set();
   showEachUserOnce(response.data.messages_sent, unique_ids);
   showEachUserOnce(response.data.messages_received, unique_ids);
+  //after getting all unique chats and showing them at left section, add show Event listeners:
+  const showButtons = document.querySelectorAll('.show-chat-button');
+  for(let btn of showButtons) btn.addEventListener('click',showSingleChat);
 };
-{
-  /*  */
-}
+// ------END OF LEFT SECTION CHATS------
+
+
 
 // START OF EVENT LISTENERS
 logout_button.addEventListener("click", logoutUser);
