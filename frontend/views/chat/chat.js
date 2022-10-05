@@ -23,6 +23,24 @@ const logoutUser = () => {
   localStorage.clear();
   checkCurrentUser();
 };
+// check if there is a chat to open"
+const checkIfThereIsChatToOpen = async ()=>{
+  const receiver = JSON.parse(localStorage.getItem('chat_with'));
+  if(!receiver) return;
+
+  send_message_content.value = ""; //empty the message input /make sure its empty
+  const img_url = receiver.profile_url;
+  const name = receiver.name;
+  const shown_id = receiver.id;
+  const api_url = `${main_object.baseURL}/home/chats/${shown_id}`;
+  const jwt_token = JSON.parse(localStorage.getItem("token"));
+  const response = await main_object.getAPI(api_url, jwt_token);
+  if (response.data.status === "Success") {
+    appendChatHTML(response.data.messages, name, img_url, shown_id);
+  } else {
+    logoutUser();
+  }
+}
 // ------END OF GENERAL PAGE FUNCTIONS------
 
 // ------START OF LEFT SECTION CHATS------
@@ -158,6 +176,8 @@ window.onload = () => {
   checkCurrentUser();
   //get all messages
   getAllMessages();
+  //check if we are sent by clicking on chat icon of specific user(check local storage for 'chat_with' key)
+  checkIfThereIsChatToOpen();
 };
 send_message_button.addEventListener("click", sendMessage);
 // ------END OF EVENT LISTENERS------
