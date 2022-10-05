@@ -20,12 +20,19 @@ const logoutUser = () => {
 
 // ------START OF LEFT SECTION CHATS------
 //show single chat:
-const showSingleChat = (e)=>{
+const showSingleChat = async (e)=>{
   const chat_card = e.target.parentNode;
-  const id = JSON.parse(localStorage.getItem('user')).id;
   const shown_id = chat_card.getAttribute('data-value');
-  console.log(id, shown_id); 
-}
+  const api_url = `${main_object.baseURL}/home/chats/${shown_id}`;
+  const jwt_token = JSON.parse(localStorage.getItem('token'));
+  const response = await main_object.getAPI(api_url, jwt_token);
+  if(response.data.status === 'Success'){
+    // appendChatHTML(response.data.messages);
+  }
+  else{
+    logoutUser();
+  }
+};
 // add unique user to left chat box with the message: //show only 5 first charcs of last message
 const addChat = (message, id) => {
   const { sender_id, receiver_id, name, profile_url, text, gender } = message;
