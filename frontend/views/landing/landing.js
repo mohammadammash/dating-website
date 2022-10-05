@@ -40,6 +40,12 @@ const addCurrentUser = (response) => {
   localStorage.setItem("user", JSON.stringify(data));
   localStorage.setItem("token", JSON.stringify(token));
 };
+//get location longitude and latitude:
+function getPosition(position) {
+  currentLocation = `${position.coords.latitude} ${position.coords.longitude}`;
+  if(!currentLocation) return;
+  registerNewUser(currentLocation);
+}
 // END OF LANDING PAGE GLOBAL FUNCTIONS
 
 // START OF EVENT LISTENERS FUNCTIONS
@@ -85,9 +91,7 @@ const submitLoginUser = async (e) => {
   }
 };
 //submit signup modal:
-const submitSignupUser = async (e) => {
-  e.preventDefault();
-
+const registerNewUser = async (location)=>{
   const bodyFormData = new FormData();
   bodyFormData.append("name", signup_name.value);
   bodyFormData.append("email", signup_email.value);
@@ -97,7 +101,7 @@ const submitSignupUser = async (e) => {
   bodyFormData.append("profile_url", base64String);
   bodyFormData.append("age", signup_age.value);
   bodyFormData.append("bio", "my bio");
-  bodyFormData.append("location", "my loc");
+  bodyFormData.append("location", location);
 
   const url = `${main_object.baseURL}/register`;
   const response = await main_object.postAPI(url, bodyFormData);
@@ -107,6 +111,10 @@ const submitSignupUser = async (e) => {
   } else {
     console.log("No data dude");
   }
+}
+const submitSignupUser = async (e) => {
+  e.preventDefault();
+  navigator.geolocation.getCurrentPosition(getPosition);
 };
 // END OF EVENT LISTENERS FUNCTIONS
 
@@ -123,5 +131,5 @@ close_signup_modal.addEventListener("click", closeModals);
 // whenever we change the image signup url:
 signup_img_url.addEventListener("change", updateProfileShown);
 //window load events: whenever page loads if there is a user => redirect him/her to the home page
-window.addEventListener('load',checkCurrentUser);
+window.addEventListener("load", checkCurrentUser);
 // END OF EVENT LISTENERS
