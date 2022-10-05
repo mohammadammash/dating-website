@@ -64,19 +64,30 @@ const getDistanceFromLatLonInKm =(lat1, lon1, lat2, lon2)=> {
 const deg2rad = (deg) => {
   return deg * (Math.PI / 180);
 }
-//sort data according to position given:
-const sortUsers = (users) => {
+//sort users by km difference:
+const sortUsersASCDistance = (users)=>{
+  users.sort((a,b)=>{
+    return a.location - b.location;
+  })
+  return users;
+}
+//change location to difference in kms from current user, then sort them ASC order
+const changeLocationToKms = (users) => {
   const current = localStorage.getItem('user');
   if(!current) return;
 
   const [lat1, lon1] = JSON.parse(current).location.split(" ");
-  const [lat2, lon2] = users[0].location.split(" ");
+  //change the location of each user into the difference in kms
+  for(let user of users){
+  const [lat2, lon2] = user.location.split(" ");
   const kms = getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2);
-  console.log(kms); 
+  user.location = kms;
+  }
+  return sortUsersASCDistance(users);
 }
 // add Users To HTML:
 const addUsersToHTML = (users) => {
-  sortUsers(users);
+  users = changeLocationToKms(users);
   const appendToContainer = (user) => {
     const userHTML = `<div class="card eggshell-bg" data-value=${user.id}>
     <img class="profile-img" src="${user.profile_url}">
@@ -86,7 +97,7 @@ const addUsersToHTML = (users) => {
     </div>
     <div>
         <p>Gender: <span class="gender">${user.gender}</span></p>
-        <p>Interested in: <span class="interested-in-gender">${user.interested_in}</span></p>
+        <p>Distance: <span class="interested-in-gender">${user.location}</span>Km away</p>
     </div>
     <p class="bio">${user.bio}</p>;
     <div class="logos">
