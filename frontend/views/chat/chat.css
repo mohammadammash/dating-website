@@ -44,7 +44,7 @@
 }
 .single-chat-container {
   border: 2px solid #cd4631;
-  width: 60%;
+  min-width: 60%;
   box-sizing: border-box;
   border-radius: 10px;
 }
@@ -85,6 +85,8 @@
 .content p span{
   opacity:0.6;
   font-size: 12px;
+  width:20%;
+  margin-left:5px;
 }
 .single-chat-container .received-message p{
   border-bottom-left-radius: 20px;

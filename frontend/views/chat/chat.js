@@ -29,7 +29,7 @@ const appendChatHTML = (messages, name, img_url, shown_id) => {
   no_chat_displayed_title.classList.add("display-none");
   show_single_chat_img.src = img_url;
   show_single_chat_name.textContent = name;
-  show_single_chat_content.innerHTML = '';
+  show_single_chat_content.innerHTML = "";
   for (let message of messages) {
     if (message.receiver_id === parseInt(shown_id)) {
       show_single_chat_content.innerHTML += `<div class="received-message"><p class="text">${message.text}<span class='date'>${message.created_at}</span></p></div>`;
