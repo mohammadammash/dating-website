@@ -6,20 +6,20 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MessageController;
 
-// LANDING PAGE ROUTES:
+// AUTHENTICATON
 Route::post('/login', [AuthController::class, 'loginUser'])->name('login-user');
 Route::post('/register', [AuthController::class, 'registerUser'])->name('register-user');
 
-// HOME PAGE ROUTES:
+// JWT MIDDLEWARE AUTHENTICATION NEEDED TO ACCESS NESTED ROUTES
 Route::group(['middleware' => 'jwt.auth'], function () {
 
-    // show home (get interested gender users - show user own profile)
-    Route::get("/home", [UserController::class, "getUsers"])->name("get-users");
-    Route::post('/home/{shown_id?}', [UserController::class, 'blockOrFollowUser'])->name('block-or-follow-user');
+    // USER
+    Route::get("/home", [UserController::class, "getUsers"])->name("get-users"); //get interested gender users to show in home page
+    Route::post('/home/{shown_id?}', [UserController::class, 'blockOrFollowUser'])->name('block-or-follow-user'); //block-unblock or favorite-unfavorite specific user
 
-    // send a specific message to a user - get all messages
-    Route::post('/home/chats/{shown_id?}', [MessageController::class, 'sendMessage'])->name('send-message');
-    Route::get("/home/chats", [MessageController::class, "getMessages"])->name("get-messages"); //get also all messages received or sent to show in profile page
-    Route::get('/home/chats/{shown_id?}', [MessageController::class, 'getSingleChat'])->name('get-chat'); //get chat between two users
+    // MESSAGES
+    Route::get("/home/chats", [MessageController::class, "getMessages"])->name("get-messages"); //get messages sent or received by a user
+    Route::get('/home/chats/{shown_id?}', [MessageController::class, 'getSingleChat'])->name('get-chat'); //get all messages between two users
+    Route::post('/home/chats/{shown_id?}', [MessageController::class, 'sendMessage'])->name('send-message'); //send a single message from a user to another
 });
 
