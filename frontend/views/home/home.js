@@ -17,12 +17,13 @@ const logoutUser = () => {
 
 // ------START OF ICONS EVENT LISTENERS FUNCTIONS------
 function AddToFavorites(e) {
+  //should have better functionality so whenever users load to page favorited users heart show as red
   const icon = e.target;
   const card = icon.parentNode.parentNode;
   const favorited_id = card.getAttribute("data-value");
   const jwt_token = JSON.parse(localStorage.getItem("token"));
   const api_url = `${main_object.baseURL}/home/${favorited_id}`;
-  
+
   if (!icon.classList.contains("clicked")) {
     const data = {
       state: "favorite",
@@ -45,13 +46,14 @@ function AddToBlocked() {
   const state = "block";
   const current_id = JSON.parse(localStorage.getItem("user")).id;
   console.log(current_id, blocked_id, state, this);
+  // same as AddToFavorites() - if i didn't finish it at time (I saved in ../assets/red icon for block to do same steps)
 }
-function chatWith() {
-  const card = this.parentNode.parentNode;
+function chatWith(e) {
+  const card = e.target.parentNode.parentNode;
   const clicked_id = card.getAttribute("data-value");
   //if user clicked on chat with a user it relocate user to chat page and send user_id clicked in localStorage, to check if there is an id when chat page loads, to show their chat directly
   localStorage.setItem("chat_with", clicked_id);
-  // window.location.href = '../chat/chat.html';
+  window.location.href = '../chat/chat.html';
 }
 // ------END OF ICONS EVENT LISTENERS FUNCTIONS-----
 
