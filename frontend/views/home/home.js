@@ -52,9 +52,13 @@ function AddToBlocked() {
 }
 function chatWith(e) {
   const card = e.target.parentNode.parentNode;
-  const clicked_id = card.getAttribute("data-value");
+  const data = {
+  id : card.getAttribute("data-value"),
+  profile_url : card.children[0].src,
+  name : card.children[1].children[0].children[0].textContent,
+};
   //if user clicked on chat with a user it relocate user to chat page and send user_id clicked in localStorage, to check if there is an id when chat page loads, to show their chat directly
-  localStorage.setItem("chat_with", clicked_id);
+  localStorage.setItem("chat_with", JSON.stringify(data));
   window.location.href = '../chat/chat.html';
 }
 // ------END OF ICONS EVENT LISTENERS FUNCTIONS-----
