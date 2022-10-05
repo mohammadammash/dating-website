@@ -26,14 +26,35 @@ const logoutUser = () => {
 // ------END OF GENERAL PAGE FUNCTIONS------
 
 // ------START OF LEFT SECTION CHATS------
+//add current sent message directly to html content, before adding to db for better UX
+const addMessageToHTML = (message)=>{
+  //get created_at date instantly
+  const currentdate = new Date();
+  const datetime =
+    currentdate.getDate() +
+    "/" +
+    (currentdate.getMonth() + 1) +
+    "/" +
+    currentdate.getFullYear() +
+    " " +
+    currentdate.getHours() +
+    ":" +
+    currentdate.getMinutes() +
+    ":" +
+    currentdate.getSeconds();
+  //show single chat directly to chat
+  show_single_chat_content.innerHTML += `<div class="sent-message"><p class="text">${message}<span class='date'>${datetime}</span></p></div>`;
+}
 //send message:
 const sendMessage = (e) => {
   if (!send_message_content.value) return;
   const message = send_message_content.value;
-  send_message_content.value = ''; //empty the message input 
-  const receiver_id = e.target.parentNode.parentNode.children[1].getAttribute('data-value');
-  const sender_id = JSON.parse(localStorage.getItem('user')).id;
-  console.log(receiver_id, sender_id, message);
+  send_message_content.value = ""; //empty the message input
+  const receiver_id =
+    e.target.parentNode.parentNode.children[1].getAttribute("data-value");
+  const sender_id = JSON.parse(localStorage.getItem("user")).id;
+  addMessageToHTML(message);
+
 };
 //append single chat message to HTML:
 const appendChatHTML = (messages, name, img_url, shown_id) => {
@@ -41,7 +62,7 @@ const appendChatHTML = (messages, name, img_url, shown_id) => {
   show_single_chat_img.src = img_url;
   show_single_chat_name.textContent = name;
   show_single_chat_content.innerHTML = "";
-  show_single_chat_content.setAttribute('data-value',shown_id);
+  show_single_chat_content.setAttribute("data-value", shown_id);
   for (let message of messages) {
     if (message.receiver_id === parseInt(shown_id)) {
       show_single_chat_content.innerHTML += `<div class="received-message"><p class="text">${message.text}<span class='date'>${message.created_at}</span></p></div>`;
@@ -66,7 +87,7 @@ const showSingleChat = async (e) => {
   } else {
     logoutUser();
   }
-};;
+};
 // add unique user to left chat box with the message: //show only 5 first charcs of last message
 const addChat = (message, id) => {
   const { sender_id, receiver_id, name, profile_url, text, gender } = message;
