@@ -46,8 +46,28 @@ const addCardEventListeners = () => {
   for (let chat of chat_icons) chat.addEventListener("click", chatWith);
   for (let block of block_icons) block.addEventListener("click", AddToBlocked);
 };
+//get distance between currentUser and another users
+const getDistanceFromLatLonInKm =(lat1, lon1, lat2, lon2)=> {
+  var R = 6371; // Radius of the earth in km
+  var dLat = deg2rad(lat2 - lat1); // deg2rad below
+  var dLon = deg2rad(lon2 - lon1);
+  var a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(deg2rad(lat1)) *
+      Math.cos(deg2rad(lat2)) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  var d = R * c; // Distance in km
+  return d;
+}
+const deg2rad = (deg) => {
+  return deg * (Math.PI / 180);
+}
+
 // add Users To HTML:
 const addUsersToHTML = (users) => {
+  sortUsers(users);
   const appendToContainer = (user) => {
     const userHTML = `<div class="card eggshell-bg" data-value=${user.id}>
     <img class="profile-img" src="${user.profile_url}">
@@ -79,8 +99,8 @@ const getAllUsers = async () => {
   if (token) jwt_token = JSON.parse(token);
 
   const response = await main_object.getAPI(api_url, jwt_token);
-  if (response.data.status === "Success") {
-    addUsersToHTML(response.data.data);
+  if (response.data.status === "Success") {//if there is data, getcurrentlocation
+      addUsersToHTML(response.data.data);
   } else {
     console.log("No data dude");
   }
