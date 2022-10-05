@@ -16,12 +16,28 @@ const logoutUser = () => {
 // ------END OF WINDOW USER FUNCTIONS------
 
 // ------START OF ICONS EVENT LISTENERS FUNCTIONS------
-function AddToFavorites() {
-  const card = this.parentNode.parentNode;
+function AddToFavorites(e) {
+  const icon = e.target;
+  const card = icon.parentNode.parentNode;
   const favorited_id = card.getAttribute("data-value");
-  const state = "favorite";
-  const current_id = JSON.parse(localStorage.getItem("user")).id;
-  console.log(current_id, favorited_id, state, this);
+  const jwt_token = JSON.parse(localStorage.getItem("token"));
+  const api_url = `${main_object.baseURL}/home/${favorited_id}`;
+  
+  if (!icon.classList.contains("clicked")) {
+    const data = {
+      state: "favorite",
+    };
+    icon.src = "../../assets/icons8-favorite-50 (2).png";
+    icon.classList.add("clicked");
+    main_object.postAPI(api_url, data, jwt_token);
+  } else {
+    const data = {
+      state: "unfavorite",
+    };
+    icon.src = "../../assets/icons8-favorite-50 (1).png";
+    icon.classList.remove("clicked");
+    main_object.postAPI(api_url, data, jwt_token);
+  }
 }
 function AddToBlocked() {
   const card = this.parentNode.parentNode;
@@ -34,7 +50,7 @@ function chatWith() {
   const card = this.parentNode.parentNode;
   const clicked_id = card.getAttribute("data-value");
   //if user clicked on chat with a user it relocate user to chat page and send user_id clicked in localStorage, to check if there is an id when chat page loads, to show their chat directly
-  localStorage.setItem('chat_with',clicked_id);
+  localStorage.setItem("chat_with", clicked_id);
   // window.location.href = '../chat/chat.html';
 }
 // ------END OF ICONS EVENT LISTENERS FUNCTIONS-----
