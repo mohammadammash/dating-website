@@ -64,7 +64,16 @@ const getDistanceFromLatLonInKm =(lat1, lon1, lat2, lon2)=> {
 const deg2rad = (deg) => {
   return deg * (Math.PI / 180);
 }
+//sort data according to position given:
+const sortUsers = (users) => {
+  const current = localStorage.getItem('user');
+  if(!current) return;
 
+  const [lat1, lon1] = JSON.parse(current).location.split(" ");
+  const [lat2, lon2] = users[0].location.split(" ");
+  const kms = getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2);
+  console.log(kms); 
+}
 // add Users To HTML:
 const addUsersToHTML = (users) => {
   sortUsers(users);
