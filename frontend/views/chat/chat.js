@@ -7,6 +7,8 @@ const show_single_chat_container = document.getElementById("single-chat");
 const no_chat_displayed_title = document.getElementById(
   "no-single-chat-display"
 );
+const send_message_button = document.getElementById("send-message-button");
+const send_message_content = document.getElementById("send-message-content");
 
 // ------START OF GENERAL PAGE FUNCTIONS------
 //check if there is a user in localstorage, if not return to landing
@@ -24,12 +26,22 @@ const logoutUser = () => {
 // ------END OF GENERAL PAGE FUNCTIONS------
 
 // ------START OF LEFT SECTION CHATS------
+//send message:
+const sendMessage = (e) => {
+  if (!send_message_content.value) return;
+  const message = send_message_content.value;
+  send_message_content.value = ''; //empty the message input 
+  const receiver_id = e.target.parentNode.parentNode.children[1].getAttribute('data-value');
+  const sender_id = JSON.parse(localStorage.getItem('user')).id;
+  console.log(receiver_id, sender_id, message);
+};
 //append single chat message to HTML:
 const appendChatHTML = (messages, name, img_url, shown_id) => {
   no_chat_displayed_title.classList.add("display-none");
   show_single_chat_img.src = img_url;
   show_single_chat_name.textContent = name;
   show_single_chat_content.innerHTML = "";
+  show_single_chat_content.setAttribute('data-value',shown_id);
   for (let message of messages) {
     if (message.receiver_id === parseInt(shown_id)) {
       show_single_chat_content.innerHTML += `<div class="received-message"><p class="text">${message.text}<span class='date'>${message.created_at}</span></p></div>`;
@@ -41,6 +53,7 @@ const appendChatHTML = (messages, name, img_url, shown_id) => {
 };
 //show single chat:
 const showSingleChat = async (e) => {
+  send_message_content.value = ""; //empty the message input
   const chat_card = e.target.parentNode;
   const img_url = chat_card.children[0].src;
   const name = chat_card.children[1].children[0].children[0].textContent;
@@ -53,7 +66,7 @@ const showSingleChat = async (e) => {
   } else {
     logoutUser();
   }
-};
+};;
 // add unique user to left chat box with the message: //show only 5 first charcs of last message
 const addChat = (message, id) => {
   const { sender_id, receiver_id, name, profile_url, text, gender } = message;
@@ -106,7 +119,7 @@ const getAllMessages = async () => {
 };
 // ------END OF LEFT SECTION CHATS------
 
-// START OF EVENT LISTENERS
+// ------START OF EVENT LISTENERS------
 logout_button.addEventListener("click", logoutUser);
 //on window load
 window.onload = () => {
@@ -115,3 +128,5 @@ window.onload = () => {
   //get all messages
   getAllMessages();
 };
+send_message_button.addEventListener("click", sendMessage);
+// ------END OF EVENT LISTENERS------

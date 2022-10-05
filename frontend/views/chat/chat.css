@@ -78,7 +78,6 @@
   display: flex;
   justify-content: space-between;
   padding: 0.5rem 1.5rem;
-  background-color: #fff;
   border: 2px solid #e5e5ea;
   border-radius: 0.25rem;
 }
@@ -90,6 +89,7 @@
 }
 .single-chat-container .received-message p{
   border-bottom-left-radius: 20px;
+  background-color: #f8f2dc;
 }
 .single-chat-container .sent-message{
   display: flex;
@@ -97,6 +97,7 @@
 }
 .single-chat-container .sent-message p{
   border-bottom-right-radius: 20px;
+  background-color: #e5e5ea;
 }
 /* END OF CHAT CONTENT */
 
