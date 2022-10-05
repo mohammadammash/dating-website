@@ -24,9 +24,9 @@ const logoutUser = () => {
   checkCurrentUser();
 };
 // check if there is a chat to open"
-const checkIfThereIsChatToOpen = async ()=>{
-  const receiver = JSON.parse(localStorage.getItem('chat_with'));
-  if(!receiver) return;
+const checkIfThereIsChatToOpen = async () => {
+  const receiver = JSON.parse(localStorage.getItem("chat_with"));
+  if (!receiver) return;
 
   send_message_content.value = ""; //empty the message input /make sure its empty
   const img_url = receiver.profile_url;
@@ -40,7 +40,7 @@ const checkIfThereIsChatToOpen = async ()=>{
   } else {
     logoutUser();
   }
-}
+};
 // ------END OF GENERAL PAGE FUNCTIONS------
 
 // ------START OF LEFT SECTION CHATS------
@@ -54,7 +54,7 @@ const postMessageToDatabase = (receiver_id, message) => {
   const jwt_token = JSON.parse(localStorage.getItem("token"));
   main_object.postAPI(api_url, data, jwt_token);
 };
-//show message sent in html 
+//show message sent in html
 const addMessageSentToHTMLDirectly = (message) => {
   //get created_at date instantly
   const currentdate = new Date();
@@ -75,6 +75,7 @@ const addMessageSentToHTMLDirectly = (message) => {
 };
 //send message:
 const sendMessage = (e) => {
+  show_single_chat_content.innerHTML = "";
   if (!send_message_content.value) return;
   const message = send_message_content.value;
   send_message_content.value = ""; //empty the message input
@@ -91,6 +92,8 @@ const appendChatHTML = (messages, name, img_url, shown_id) => {
   show_single_chat_name.textContent = name;
   show_single_chat_content.innerHTML = "";
   show_single_chat_content.setAttribute("data-value", shown_id);
+  if (messages.length <= 0) show_single_chat_content.innerHTML = "<h2>No Messages</h2>";
+  else show_single_chat_content.innerHTML = "";
   for (let message of messages) {
     if (message.receiver_id !== parseInt(shown_id)) {
       show_single_chat_content.innerHTML += `<div class="received-message"><p class="text">${message.text}<span class='date'>${message.created_at}</span></p></div>`;
