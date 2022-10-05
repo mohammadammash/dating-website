@@ -27,7 +27,17 @@ const logoutUser = () => {
 
 // ------START OF LEFT SECTION CHATS------
 //add current sent message directly to html content, before adding to db for better UX
-const addMessageToHTML = (message)=>{
+//post new message to database:
+const postMessageToDatabase = (receiver_id, message) => {
+  console.log(receiver_id, message);
+  const api_url = `${main_object.baseURL}/home/chats/${receiver_id}`;
+  const data = {
+    message: message,
+  };
+  const jwt_token = JSON.parse(localStorage.getItem("token"));
+  main_object.postAPI(api_url, data, jwt_token);
+};
+const addMessageSentToHTMLDirectly = (message) => {
   //get created_at date instantly
   const currentdate = new Date();
   const datetime =
@@ -44,7 +54,7 @@ const addMessageToHTML = (message)=>{
     currentdate.getSeconds();
   //show single chat directly to chat
   show_single_chat_content.innerHTML += `<div class="sent-message"><p class="text">${message}<span class='date'>${datetime}</span></p></div>`;
-}
+};
 //send message:
 const sendMessage = (e) => {
   if (!send_message_content.value) return;
@@ -53,8 +63,8 @@ const sendMessage = (e) => {
   const receiver_id =
     e.target.parentNode.parentNode.children[1].getAttribute("data-value");
   const sender_id = JSON.parse(localStorage.getItem("user")).id;
-  addMessageToHTML(message);
-
+  addMessageSentToHTMLDirectly(message);
+  postMessageToDatabase(receiver_id, message);
 };
 //append single chat message to HTML:
 const appendChatHTML = (messages, name, img_url, shown_id) => {
@@ -64,7 +74,7 @@ const appendChatHTML = (messages, name, img_url, shown_id) => {
   show_single_chat_content.innerHTML = "";
   show_single_chat_content.setAttribute("data-value", shown_id);
   for (let message of messages) {
-    if (message.receiver_id === parseInt(shown_id)) {
+    if (message.receiver_id !== parseInt(shown_id)) {
       show_single_chat_content.innerHTML += `<div class="received-message"><p class="text">${message.text}<span class='date'>${message.created_at}</span></p></div>`;
     } else {
       show_single_chat_content.innerHTML += `<div class="sent-message"><p class="text">${message.text}<span class='date'>${message.created_at}</span></p></div>`;
