@@ -9,7 +9,6 @@
   flex-direction: column;
   align-items: center;
   padding-top: 40px;
-  height:100vh;
   border-right: 2px solid #cd4631;
 }
 /* START OF SINGLE CHAT */
@@ -22,6 +21,10 @@
 .all-chats .single-chat img {
   width: 30%;
   border-radius: 50%;
+}
+.all-chats .single-chat .gender{
+  font-size:12px;
+  text-align: end;
 }
 .all-chats .single-chat button {
   text-align: center;
