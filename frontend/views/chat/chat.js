@@ -29,7 +29,6 @@ const logoutUser = () => {
 //add current sent message directly to html content, before adding to db for better UX
 //post new message to database:
 const postMessageToDatabase = (receiver_id, message) => {
-  console.log(receiver_id, message);
   const api_url = `${main_object.baseURL}/home/chats/${receiver_id}`;
   const data = {
     message: message,
@@ -37,6 +36,7 @@ const postMessageToDatabase = (receiver_id, message) => {
   const jwt_token = JSON.parse(localStorage.getItem("token"));
   main_object.postAPI(api_url, data, jwt_token);
 };
+//show message sent in html 
 const addMessageSentToHTMLDirectly = (message) => {
   //get created_at date instantly
   const currentdate = new Date();

@@ -15,25 +15,29 @@ const logoutUser = () => {
 };
 // ------END OF WINDOW USER FUNCTIONS------
 
-
 // ------START OF ICONS EVENT LISTENERS FUNCTIONS------
 function AddToFavorites() {
   const card = this.parentNode.parentNode;
   const favorited_id = card.getAttribute("data-value");
-  console.log(favorited_id);
+  const state = "favorite";
+  const current_id = JSON.parse(localStorage.getItem("user")).id;
+  console.log(current_id, favorited_id, state, this);
 }
 function AddToBlocked() {
   const card = this.parentNode.parentNode;
   const blocked_id = card.getAttribute("data-value");
-  console.log(blocked_id);
+  const state = "block";
+  const current_id = JSON.parse(localStorage.getItem("user")).id;
+  console.log(current_id, blocked_id, state, this);
 }
 function chatWith() {
   const card = this.parentNode.parentNode;
-  const receiver_id = card.getAttribute("data-value");
-  console.log(receiver_id);
+  const clicked_id = card.getAttribute("data-value");
+  //if user clicked on chat with a user it relocate user to chat page and send user_id clicked in localStorage, to check if there is an id when chat page loads, to show their chat directly
+  localStorage.setItem('chat_with',clicked_id);
+  // window.location.href = '../chat/chat.html';
 }
 // ------END OF ICONS EVENT LISTENERS FUNCTIONS-----
-
 
 // ------START OF ALL USERS AND CARDS------
 // add card event listeners after appending the card:
@@ -47,7 +51,7 @@ const addCardEventListeners = () => {
   for (let block of block_icons) block.addEventListener("click", AddToBlocked);
 };
 //get distance between currentUser and another users
-const getDistanceFromLatLonInKm =(lat1, lon1, lat2, lon2)=> {
+const getDistanceFromLatLonInKm = (lat1, lon1, lat2, lon2) => {
   var R = 6371; // Radius of the earth in km
   var dLat = deg2rad(lat2 - lat1); // deg2rad below
   var dLon = deg2rad(lon2 - lon1);
@@ -60,31 +64,31 @@ const getDistanceFromLatLonInKm =(lat1, lon1, lat2, lon2)=> {
   var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   var d = R * c; // Distance in km
   return d;
-}
+};
 const deg2rad = (deg) => {
   return deg * (Math.PI / 180);
-}
+};
 //sort users by km difference:
-const sortUsersASCDistance = (users)=>{
-  users.sort((a,b)=>{
+const sortUsersASCDistance = (users) => {
+  users.sort((a, b) => {
     return a.location - b.location;
-  })
+  });
   return users;
-}
+};
 //change location to difference in kms from current user, then sort them ASC order
 const changeLocationToKms = (users) => {
-  const current = localStorage.getItem('user');
-  if(!current) return;
+  const current = localStorage.getItem("user");
+  if (!current) return;
 
   const [lat1, lon1] = JSON.parse(current).location.split(" ");
   //change the location of each user into the difference in kms
-  for(let user of users){
-  const [lat2, lon2] = user.location.split(" ");
-  const kms = getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2);
-  user.location = kms;
+  for (let user of users) {
+    const [lat2, lon2] = user.location.split(" ");
+    const kms = getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2);
+    user.location = kms;
   }
   return sortUsersASCDistance(users);
-}
+};
 // add Users To HTML:
 const addUsersToHTML = (users) => {
   users = changeLocationToKms(users);
@@ -97,7 +101,9 @@ const addUsersToHTML = (users) => {
     </div>
     <div>
         <p>Gender: <span class="gender">${user.gender}</span></p>
-        <p>Distance: <span class="interested-in-gender">${parseFloat(user.location.toFixed(4))}</span>Km away</p>
+        <p>Distance: <span class="interested-in-gender">${parseFloat(
+          user.location.toFixed(4)
+        )}</span>Km away</p>
     </div>
     <p class="bio">${user.bio}</p>;
     <div class="logos">
@@ -119,14 +125,14 @@ const getAllUsers = async () => {
   if (token) jwt_token = JSON.parse(token);
 
   const response = await main_object.getAPI(api_url, jwt_token);
-  if (response.data.status === "Success") {//if there is data, getcurrentlocation
-      addUsersToHTML(response.data.data);
+  if (response.data.status === "Success") {
+    //if there is data, getcurrentlocation
+    addUsersToHTML(response.data.data);
   } else {
     console.log("No data dude");
   }
 };
 // ------END OF ALL USERS AND CARDS------
-
 
 // -----START OF EVENT LISTENERS-----
 logout_button.addEventListener("click", logoutUser);
