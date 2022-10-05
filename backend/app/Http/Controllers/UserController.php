@@ -46,10 +46,10 @@ class UserController extends Controller
         $messages = [];
 
         $id = $user->id;
+        $currentUser = User::where('id', $id)->get();
         $messages = DB::table('messages')->where('sender_id', $id)->orWhere('receiver_id', $id)->get(); //get messages of currentUser
 
         // if there is an id provided (GetCurrentUser) - profile page
-        $currentUser = User::where('id', $id)->get();
         if (!count($currentUser) > 0) {
             return response()->json([
                 'status' => 'Error',
@@ -100,7 +100,6 @@ class UserController extends Controller
             'is_blocked' => $is_blocked,
             'blocked_by' => $blocked_by,
         ]);
-
     }
 
     //function to handle follow or block for a user:
