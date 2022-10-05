@@ -20,8 +20,6 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     // send a specific message to a user - get all messages
     Route::post('/home/chats/{shown_id?}', [MessageController::class, 'sendMessage'])->name('send-message');
     Route::get("/home/chats", [MessageController::class, "getMessages"])->name("get-messages"); //get also all messages received or sent to show in profile page
+    Route::get('/home/chats/{shown_id?}', [MessageController::class, 'getSingleChat'])->name('get-chat'); //get chat between two users
 });
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});

@@ -34,7 +34,6 @@ class MessageController extends Controller
     {
         $user = JWTAuth::authenticate($request->token);
 
-        $id = $user->id;
         $messages_sent = DB::table('users')->join('messages', 'users.id', '=', 'messages.sender_id')->get(); //get messages of currentUser
         $messages_received = DB::table('users')->join('messages', 'users.id', '=', 'messages.receiver_id')->get(); //get messages of currentUser
 
@@ -44,6 +43,22 @@ class MessageController extends Controller
             'status' => 'Success',
             'messages_sent' => $messages_sent,
             'messages_received' => $messages_received,
+        ]);
+    }
+
+    function getSingleChat(Request $request, $shown_id){
+        $user = JWTAuth::authenticate($request->token);
+
+        if (!$shown_id) return response()->json([
+            'status' => 'Error',
+            'data' => 'User Not Found',
+        ]);
+
+        
+        $messages = DB::table('messages')->where('sender_id',$user->id)->where('receiver_id',$shown_id)->orWhere('sender_id',$shown_id)->where('receiver_id',$user->id)->get();
+        return response()->json([
+            'status' => 'Success',
+            'messages' => $messages,
         ]);
     }
 }
