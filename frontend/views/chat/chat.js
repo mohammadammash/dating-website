@@ -15,13 +15,15 @@ const logoutUser = () => {
   checkCurrentUser();
 };
 // add unique user to left chat box with the message: //show only 5 first charcs of last message
-const addChat = (message) => {
-  const { name, profile_url, text, gender } = message;
-  const htmlChat = `<div class="single-chat eggshell-bg">
+const addChat = (message, id) => {
+  const { sender_id, receiver_id, name, profile_url, text, gender } = message;
+  if (sender_id !== id) id = sender_id;
+  else if (receiver_id !== id) id = receiver_id;
+  const htmlChat = `<div class="single-chat eggshell-bg" data-value='${id}>
                         <img src="${profile_url}">
                         <div class="user-info">
                           <p class="size-20"><span class='name'>${name}</span><span class='gender'>~${gender}</span></p>
-                          <p class="last-msg">${text.slice(0,5)}...</p>
+                          <p class="last-msg">${text.slice(0, 5)}...</p>
                         </div>
                         <button class="btn btn-md">Show</button>
                       </div>`;
@@ -39,10 +41,10 @@ const showEachUserOnce = (messages, unique_ids) => {
     const receiver_id = message.receiver_id;
 
     if (sender_id === id && !unique_ids.has(receiver_id)) {
-      addChat(message);
+      addChat(message, id);
       unique_ids.add(receiver_id);
     } else if (receiver_id === id && !unique_ids.has(sender_id)) {
-      addChat(message);
+      addChat(message, id);
       unique_ids.add(sender_id);
     }
   }
