@@ -97,7 +97,7 @@ const addUsersToHTML = (users) => {
     </div>
     <div>
         <p>Gender: <span class="gender">${user.gender}</span></p>
-        <p>Distance: <span class="interested-in-gender">${user.location}</span>Km away</p>
+        <p>Distance: <span class="interested-in-gender">${parseFloat(user.location.toFixed(4))}</span>Km away</p>
     </div>
     <p class="bio">${user.bio}</p>;
     <div class="logos">
